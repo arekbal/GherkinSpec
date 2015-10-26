@@ -1,0 +1,14 @@
+F:\PROJECTS\GherkinSpec\src\GherkinSpec.Tests\bin\Debug\Feature.feature
+F:\PROJECTS\GherkinSpec\src\GherkinSpec.Tests\bin\Debug\funkcja.feature
+F:\PROJECTS\GherkinSpec\src\GherkinSpec.Tests\bin\Debug\GherkinSpec.Tests.dll.config
+F:\PROJECTS\GherkinSpec\src\GherkinSpec.Tests\bin\Debug\GherkinSpec.Tests.dll
+F:\PROJECTS\GherkinSpec\src\GherkinSpec.Tests\bin\Debug\GherkinSpec.Tests.pdb
+F:\PROJECTS\GherkinSpec\src\GherkinSpec.Tests\bin\Debug\Gherkin.dll
+F:\PROJECTS\GherkinSpec\src\GherkinSpec.Tests\bin\Debug\GherkinSpec.Core.dll
+F:\PROJECTS\GherkinSpec\src\GherkinSpec.Tests\bin\Debug\GherkinSpec.MsTest.dll
+F:\PROJECTS\GherkinSpec\src\GherkinSpec.Tests\bin\Debug\Microsoft.VisualStudio.QualityTools.UnitTestFramework.dll
+F:\PROJECTS\GherkinSpec\src\GherkinSpec.Tests\bin\Debug\GherkinSpec.Core.pdb
+F:\PROJECTS\GherkinSpec\src\GherkinSpec.Tests\bin\Debug\GherkinSpec.MsTest.pdb
+F:\PROJECTS\GherkinSpec\src\GherkinSpec.Tests\obj\Debug\GherkinSpec.Tests.csprojResolveAssemblyReference.cache
+F:\PROJECTS\GherkinSpec\src\GherkinSpec.Tests\obj\Debug\GherkinSpec.Tests.dll
+F:\PROJECTS\GherkinSpec\src\GherkinSpec.Tests\obj\Debug\GherkinSpec.Tests.pdb
