@@ -1,0 +1,7 @@
+F:\PROJECTS\GherkinSpec\WebApplication1\GherkinSpec\obj\Debug\GherkinSpec.csprojResolveAssemblyReference.cache
+F:\PROJECTS\GherkinSpec\WebApplication1\GherkinSpec\bin\Debug\GherkinSpec.dll
+F:\PROJECTS\GherkinSpec\WebApplication1\GherkinSpec\bin\Debug\GherkinSpec.pdb
+F:\PROJECTS\GherkinSpec\WebApplication1\GherkinSpec\bin\Debug\Gherkin.dll
+F:\PROJECTS\GherkinSpec\WebApplication1\GherkinSpec\bin\Debug\Microsoft.VisualStudio.QualityTools.UnitTestFramework.dll
+F:\PROJECTS\GherkinSpec\WebApplication1\GherkinSpec\obj\Debug\GherkinSpec.dll
+F:\PROJECTS\GherkinSpec\WebApplication1\GherkinSpec\obj\Debug\GherkinSpec.pdb
