@@ -3,4 +3,3 @@ F:\PROJECTS\GherkinSpec\src\GherkinSpec.Core\bin\Release\GherkinSpec.Core.pdb
 F:\PROJECTS\GherkinSpec\src\GherkinSpec.Core\bin\Release\Gherkin.dll
 F:\PROJECTS\GherkinSpec\src\GherkinSpec.Core\obj\Release\GherkinSpec.Core.dll
 F:\PROJECTS\GherkinSpec\src\GherkinSpec.Core\obj\Release\GherkinSpec.Core.pdb
-F:\PROJECTS\GherkinSpec\src\GherkinSpec.Core\obj\Release\GherkinSpec.Core.csprojResolveAssemblyReference.cache

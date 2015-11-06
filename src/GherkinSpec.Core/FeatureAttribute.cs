@@ -9,6 +9,8 @@ namespace GherkinSpec.Core
   [AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]
   public sealed class FeatureAttribute : Attribute
   {
+    public Type Loader { get; set; }
+    public string LoaderParam { get; set; }
     public string FileAddress { get; set; }
     public string FilePath { get; set; }
   }

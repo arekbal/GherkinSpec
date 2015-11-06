@@ -12,3 +12,4 @@ F:\PROJECTS\GherkinSpec\src\GherkinSpec.Tests\bin\Debug\GherkinSpec.MsTest.pdb
 F:\PROJECTS\GherkinSpec\src\GherkinSpec.Tests\obj\Debug\GherkinSpec.Tests.csprojResolveAssemblyReference.cache
 F:\PROJECTS\GherkinSpec\src\GherkinSpec.Tests\obj\Debug\GherkinSpec.Tests.dll
 F:\PROJECTS\GherkinSpec\src\GherkinSpec.Tests\obj\Debug\GherkinSpec.Tests.pdb
+F:\PROJECTS\GherkinSpec\src\GherkinSpec.Tests\bin\Debug\EatingData.csv

@@ -18,7 +18,7 @@ namespace GherkinSpec.MsTest
     {
       if(!_isStaticInitialized)
       {
-        Ctx = new GherkinSpecContext(GetType());
+        Ctx = new GherkinSpecContext();
 
         _isStaticInitialized = true;
       }
@@ -29,11 +29,14 @@ namespace GherkinSpec.MsTest
     {
       try
       {
-        Ctx.InitFeature();
+        // forced so feature related state is processed per test
+        Ctx.InitFeature(this);
+
+        Background();
 
         Ctx.InitScenario(TestContext.TestName);
 
-        Background();
+        OnInitTest();
       }
       catch (Exception ex)
       {
@@ -42,14 +45,27 @@ namespace GherkinSpec.MsTest
       }
     }
 
+    public virtual void OnInitTest()
+    {
+    }
+
+    public virtual void OnCleanupTest()
+    {
+    }
+
     public virtual void Background()
     {
     }
 
     [TestCleanup]
     public void CleanupTest()
-    {      
+    {
+      OnCleanupTest();
+
       Ctx.CleanupScenario(TestContext.CurrentTestOutcome == UnitTestOutcome.Passed);
+
+      // forced so feature related state is processed per test
+      Ctx.CleanupFeature();
     }
 
     public void Step(string textStartingWithKeyword) => Ctx.Step(textStartingWithKeyword);
@@ -73,5 +89,9 @@ namespace GherkinSpec.MsTest
     public IEnumerable<IReadOnlyDictionary<string, string>> ResultTable => Ctx.ArgumentTable;
 
     public IEnumerable<string> ResultList => Ctx.ArgumentList;
+
+    public ExampleSets ExampleSets => Ctx.ExampleSets;
+
+    public bool AllScenariosCovered => Ctx.AllScenariosCovered;
   }
 }

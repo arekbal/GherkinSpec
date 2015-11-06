@@ -1,9 +1,9 @@
 ﻿
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Gherkin.Ast;
-using System.Linq;
 using GherkinSpec.Core;
 using GherkinSpec.MsTest;
+using System.Linq;
+using System.Collections.Generic;
 
 namespace GherkinSpec.Tests
 {
@@ -26,7 +26,7 @@ namespace GherkinSpec.Tests
     [Scenario("Buy last coffee") TestMethod]
     public void Buy_last_coffee()
     {
-      Step("Given there are 1 coffees left in the machine:");
+      Step("Given there are 1 coffees left in the machine");
 
       Step("And I have deposited 1$");
 
@@ -59,6 +59,36 @@ namespace GherkinSpec.Tests
       Step("Then the greeting service response will contain one of the following messages:");
 
       var possibleResults = ResultList;
+    }
+
+    public class EatData
+    {
+      public int start { get; set; }
+      public int eat { get; set; }
+      public int left { get; set; }
+    }        
+ 
+    
+    [Scenario("Eating") TestMethod]
+    public void Eating()
+    {
+      foreach (var exampleSet in ExampleSets)
+        foreach (var d in exampleSet)
+        {
+          Step($"Given there are {d["start"]} cucumbers");
+
+          Step($"When I eat {d["eat"]} cucumbers");
+
+          Step($"Then I should have {d["left"]} cucumbers");
+        }
+
+      
+    }
+
+    [TestMethod]
+    public void All_scenarios_test_covered()
+    {
+      Assert.IsTrue(AllScenariosCovered);
     }
   }
 }

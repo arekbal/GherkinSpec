@@ -1,54 +1,81 @@
 ﻿using Gherkin.Ast;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Net.Http;
 using static System.String;
 
 namespace GherkinSpec.Core
 {
+  using FeatureLoaders;
+  using static Helpers;
+
   public class GherkinSpecContext
   {
-    public Type TestContainer { get; }
+    public object TestContainer { get; private set; }
 
-    public Feature Feature { get; }
+    public Feature CurrFeature { get; private set; }
 
-    ScenarioDefinition CurrScenario { get; set; }
+    public ScenarioDefinition CurrScenario { get; private set; }
 
-    Step CurrStep { get; set; }
+    public Step CurrStep { get; private set; }
 
-    int step = 0;
+    int _backgroundStep;
 
-    public GherkinSpecContext(Type testContainer)
-    {
-      TestContainer = testContainer;
+    int _scenarioStep;
 
-      var attr = (FeatureAttribute)TestContainer.GetCustomAttributes(typeof(FeatureAttribute), false).FirstOrDefault();
+    bool _featureInitialized;
 
-      if (attr == null)
-        throw FeatureError("Feature attribute is missing");
-
-      var parser = new Gherkin.Parser();
-
-      if (!IsNullOrWhiteSpace(attr.FilePath))
-        Feature = parser.Parse(attr.FilePath);
-      else
-        if (!IsNullOrWhiteSpace(attr.FileAddress))
-        {
-          using (var httpClient = new HttpClient())
-            using (var reader = new StreamReader(httpClient.GetStreamAsync(attr.FileAddress).Result))
-              Feature = parser.Parse(reader);
-        }
-        else
-          throw FeatureError("No FilePath or FileAddress");
+    public GherkinSpecContext()
+    {  
     }
 
-    public void InitFeature()
+    public void InitFeature(object testContainer)
     {
-      WriteLine(Feature.Keyword + ": " + Feature.Name);
-      WriteLine(Feature.Description);
-      WriteLine("");
+      if (!_featureInitialized)
+      {
+        TestContainer = testContainer;
+
+        var attr = (FeatureAttribute)TestContainer.GetType().GetCustomAttributes(typeof(FeatureAttribute), true).FirstOrDefault();
+
+        if (attr == null)
+          throw FeatureError("Feature attribute is missing");
+
+        var bFeature = FeatureLoaderSelector.Select(attr);
+        if (bFeature.NoValue)
+          throw FeatureError("Coudn't load Feature");
+
+        CurrFeature = bFeature.Value;
+
+        WriteLine(CurrFeature.Keyword + ": " + CurrFeature.Name);
+
+        if (!IsNullOrWhiteSpace(CurrFeature.Description))
+          WriteLine(CurrFeature.Description);
+
+        WriteLine();
+
+        if (CurrFeature.Background != null)
+        {
+          WriteLine(CurrFeature.Background.Keyword + ": ");
+
+          if (!IsNullOrWhiteSpace(CurrFeature.Background.Description))
+            WriteLine(CurrFeature.Background.Description);
+        }
+
+        _backgroundStep = 0;
+
+        _featureInitialized = true;
+      }
+    }
+
+    public ExampleSets ExampleSets
+    {
+      get
+      {
+        if(CurrScenario is ScenarioOutline)
+          return new ExampleSets(((ScenarioOutline)CurrScenario).Examples);
+
+        throw FeatureError("Current scenario isn't an outline");
+      }
     }
 
     public void InitScenario(string methodName)
@@ -56,32 +83,100 @@ namespace GherkinSpec.Core
       CurrScenario = null;
 
       CurrStep = null;
+      
+      _scenarioStep = 0;
 
-      step = 0;
-
-      var attr = (ScenarioAttribute)TestContainer.GetMethod(methodName).GetCustomAttributes(typeof(ScenarioAttribute), false).FirstOrDefault();
+      var attr = (ScenarioAttribute)TestContainer
+        .GetType()
+        .GetMethod(methodName)
+        .GetCustomAttributes(typeof(ScenarioAttribute), false)
+        .FirstOrDefault();
 
       if (attr == null)
         return;
 
-      CurrScenario = Feature.ScenarioDefinitions.FirstOrDefault(d => d.Name == attr.ScenarioName);
+      CurrScenario = CurrFeature.ScenarioDefinitions.FirstOrDefault(d => d.Name == attr.ScenarioName);
 
       if (CurrScenario == null)
         throw FeatureError($"There is no scenario under name: '{attr.ScenarioName}' defined in .feature file");
 
-      WriteLine(CurrScenario.Keyword + ": " + CurrScenario.Name);
-      WriteLine(CurrScenario.Description);
+      WriteLine();
+      WriteLine($"{CurrScenario.Keyword}: {CurrScenario.Name}");
+
+      if(!IsNullOrWhiteSpace(CurrScenario.Description))
+        WriteLine(CurrScenario.Description);
+    }
+
+    void ResetScenario()
+    {
+      CurrScenario = null;
+      CurrStep = null;
+      _backgroundStep = 0;
+      _scenarioStep = 0;
     }
 
     public void CleanupScenario(bool testPassed)
-    {  
-      if (testPassed && Feature.Background.Steps.Concat(CurrScenario.Steps).Count() != step)
-        throw FeatureError("Not enough steps");
+    {
+      WriteLine();
+      
+      if (testPassed)
+      {
+        if (CurrFeature.Background.Steps.Count() != _backgroundStep)
+        {
+          ResetScenario();
+          throw FeatureError("Not enough or too many steps");
+        }
 
-      WriteLine("");
+        if (CurrScenario is ScenarioOutline)
+        {
+          var outline = (ScenarioOutline)CurrScenario;
+
+          WithExamples();
+
+          if (outline.Steps.Count() * outline.Examples.Sum(e => e.TableBody.Count()) != _scenarioStep)
+          {
+            ResetScenario();
+            throw FeatureError("Not enough or too many steps");
+          }
+          else
+          {
+            ResetScenario();
+            return;
+          }
+        }
+
+        if (CurrScenario != null && CurrScenario.Steps.Count() != _scenarioStep)
+        {
+          ResetScenario();
+          throw FeatureError("Not enough or too many steps");
+        }
+      }
+
+      ResetScenario();
     }
 
-    protected virtual void WriteLine(string text, ConsoleColor foreColor = ConsoleColor.DarkCyan, ConsoleColor backColor = ConsoleColor.Black)
+    public void CleanupFeature()
+    {
+      _backgroundStep = 0;
+    }
+
+    public bool AllScenariosCovered
+    {
+      get
+      {
+        var coveredScenarioNames = 
+          TestContainer
+          .GetType()
+          .GetMethods()
+          .Select(method => (ScenarioAttribute)method.GetCustomAttributes(typeof(ScenarioAttribute), false).FirstOrDefault())
+          .Where(IsNotNull)
+          .Select(d => d.ScenarioName);
+
+        return CurrFeature.ScenarioDefinitions.All(d=> coveredScenarioNames.Contains(d.Name));
+      }
+    }
+
+    protected virtual void WriteLine(string text="", ConsoleColor foreColor = ConsoleColor.DarkCyan, ConsoleColor backColor = ConsoleColor.Black)
     {
       Console.ForegroundColor = foreColor;
       Console.BackgroundColor = backColor;
@@ -93,16 +188,44 @@ namespace GherkinSpec.Core
       Console.ResetColor();
     }
 
-    public void Step(string textStartingWithKeyword)
+    Gherkin.Ast.Step GetCurrStep()
     {
-      var backgroundSteps = Feature.Background.Steps;
+      if (CurrScenario == null)
+        return CurrFeature.Background.Steps.ElementAt(_backgroundStep);
 
-      CurrStep = backgroundSteps.Concat(CurrScenario.Steps).ElementAt(step);
+      if (CurrScenario is ScenarioOutline)
+      {
+        var outline = (ScenarioOutline)CurrScenario;
+        var exampleSetsCount = outline.Examples.Sum(d => d.TableBody.Count());
 
-      var fullText = CurrStep.Keyword.Trim() + " " + CurrStep.Text;
+        return CurrScenario.Steps.ElementAt(_scenarioStep % CurrScenario.Steps.Count());
+      }
 
-      if (fullText.Trim() != textStartingWithKeyword)
-        throw FeatureError($"Expected different text... expected: '{fullText}', got:'{textStartingWithKeyword}'");
+      return CurrScenario.Steps.ElementAt(_scenarioStep);     
+    }
+
+    void InternalStep(string textStartingWithKeywordAndPlaceholders)
+    {
+      var fullText = $"{CurrStep.Keyword.Trim()} {CurrStep.Text}";
+
+      if (CurrScenario is ScenarioOutline)
+      {
+        var outline = (ScenarioOutline)CurrScenario;
+
+        var exampleRows = outline.Examples.SelectMany(ex => ex.TableBody);
+
+        var stepModelRow = exampleRows.ElementAt(_scenarioStep / CurrScenario.Steps.Count());
+
+        var columnNames = outline.Examples.FirstOrDefault().TableHeader.Cells.Select(c => c.Value);
+
+        var dict = GetRowAsDict(columnNames, stepModelRow);
+
+        foreach (var columnName in columnNames)
+          fullText = fullText.Replace($"<{columnName}>", dict[columnName]);
+      }
+
+      if (fullText.Trim() != textStartingWithKeywordAndPlaceholders)
+        throw FeatureError($"Expected different text... expected: '{fullText}', got:'{textStartingWithKeywordAndPlaceholders}'");
 
       WriteLine(fullText);
 
@@ -112,67 +235,77 @@ namespace GherkinSpec.Core
         else
           WithArgumentTable();
 
-      step++;
+      IncrementStep();
     }
 
-    public void Step(string keyword, string text)
+    public void Step(string textStartingWithKeywordAndPlaceholders)
     {
-      CurrStep = Feature.Background.Steps.Concat(CurrScenario.Steps).ElementAt(step);
+      CurrStep = GetCurrStep();
+
+      InternalStep(textStartingWithKeywordAndPlaceholders);
+    }
+
+    public void Step(string keyword, string textWithPlaceholders)
+    {
+      CurrStep = GetCurrStep();
 
       if (CurrStep == null)
-        throw FeatureError("That step is not defined by specification");
+        throw FeatureError("That step is not defined in specification");
 
       if (CurrStep.Keyword.Trim() != keyword)
         throw FeatureError($"Expected different keyword... expected: '{CurrStep.Keyword}', got:'{keyword}'");
 
-      if (CurrStep.Text.Trim() != text.Trim())
-        throw FeatureError($"Expected different text... expected: '{CurrStep.Text}', got:'{text}'");
-
-      WriteLine(CurrStep.Keyword.Trim() + " " + CurrStep.Text);
-
-      step++;
+      InternalStep($"{keyword} {textWithPlaceholders}");
     }
 
-    private bool IsArgumentTable => ((DataTable)CurrStep.Argument).Rows.First().Cells.Take(2).Count() > 1;
-    private bool IsArgumentList => ((DataTable)CurrStep.Argument).Rows.First().Cells.Take(2).Count() == 1;
-
-    private void WithArgumentTable()
+    void IncrementStep()
     {
-      WriteLine("| " + Join(" | ", ArgumentTable.First().Select(d => d.Key)) + " |");
+      if (CurrScenario != null)
+        _scenarioStep++;
+      else
+        _backgroundStep++;
+    }
+
+    bool IsArgumentTable => ((DataTable)CurrStep.Argument).Rows.First().Cells.Take(2).Count() > 1;
+
+    bool IsArgumentList => ((DataTable)CurrStep.Argument).Rows.First().Cells.Take(2).Count() == 1;
+
+    void WithArgumentTable()
+    {
+      WriteLine($"| {Join(" | ", ArgumentTable.First().Select(d => d.Key))} |");
 
       foreach (var args in ArgumentTable)
-        WriteLine("| " + Join(" | ", args.Select(d => d.Value)) + " |");
+        WriteLine($"| {Join(" | ", args.Select(d => d.Value))} |");
     }
 
-    private void WithArgumentList()
+    void WithExamples()
+    {
+      var outline = (ScenarioOutline)CurrScenario;
+
+      foreach(var examplesObject in outline.Examples)
+      {
+        WriteLine($"{examplesObject.Keyword}: {examplesObject.Name}");
+        WriteLine($"| {Join(" | ", examplesObject.TableHeader.Cells.Select(d=>d.Value))} |");
+        
+        foreach(var exampleRow in examplesObject.TableBody)
+          WriteLine($"| {Join(" | ", exampleRow.Cells.Select(d => d.Value))} |");
+      }
+      //WriteLine($"| {Join(" | ", ArgumentTable.First().Select(d => d.Key))} |");
+      //
+      //foreach (var args in ArgumentTable)
+      //  WriteLine($"| {Join(" | ", args.Select(d => d.Value))} |");
+    }
+
+    void WithArgumentList()
     {
       foreach (var arg in ArgumentList)
-        WriteLine("| " + arg + " |");
+        WriteLine($"| {arg} |");
     }
 
     public IEnumerable<string> ArgumentList => ((DataTable)CurrStep.Argument).Rows.Select(d=>d.Cells.First().Value);
 
-    public IEnumerable<IReadOnlyDictionary<string, string>> ArgumentTable => GetRowValues(((DataTable)CurrStep.Argument).Rows);
+    public IEnumerable<IReadOnlyDictionary<string, string>> ArgumentTable => GetRowsValues(((DataTable)CurrStep.Argument).Rows);
 
-    protected static Exception FeatureError(string message) => new Exception("[FeatureError] " + message);
-
-    static IEnumerable<IReadOnlyDictionary<string, string>> GetRowValues(IEnumerable<TableRow> tableRows)
-    {
-      var columnNames = tableRows.First().Cells.Select(c => c.Value);
-
-      foreach (var row in tableRows.Skip(1))
-      {
-        var dict = new Dictionary<string, string>();
-
-        using (var enumerator = row.Cells.GetEnumerator())
-          foreach (var columnName in columnNames)
-          {
-            enumerator.MoveNext();
-            dict.Add(columnName, enumerator.Current.Value);
-          }
-
-        yield return dict;
-      }
-    }
+    protected static Exception FeatureError(string message) => new Exception($"[FeatureError] {message}");
   }
 }

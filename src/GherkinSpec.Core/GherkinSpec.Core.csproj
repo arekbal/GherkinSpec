@@ -40,10 +40,17 @@
     <Reference Include="System.Net.Http" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ExampleSet.cs" />
     <Compile Include="FeatureAttribute.cs" />
+    <Compile Include="FeatureLoaders\FeatureFileLoader.cs" />
+    <Compile Include="FeatureLoaders\FeatureHttpLoader.cs" />
+    <Compile Include="FeatureLoaders\FeatureLoaderSelector.cs" />
+    <Compile Include="FeatureLoaders\IFeatureLoader.cs" />
     <Compile Include="GherkinSpecContext.cs" />
+    <Compile Include="Helpers.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ScenarioAttribute.cs" />
+    <Compile Include="Utils\Conditional.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
