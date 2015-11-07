@@ -4,13 +4,14 @@ using GherkinSpec.Core;
 using GherkinSpec.MsTest;
 using System.Linq;
 using System.Collections.Generic;
+using GherkinSpec.Core.FeatureLoaders;
 
 namespace GherkinSpec.Tests
 {
-  [Feature(FilePath="Feature.feature" /*FileAddress= "https://raw.githubusercontent.com/arekbal/arekbal.github.io/master/Feature.feature"*/) TestClass]
+  [Feature(Loader=typeof(FeatureFileLoader), LoaderParam="Feature.feature" /*FileAddress= "https://raw.githubusercontent.com/arekbal/arekbal.github.io/master/Feature.feature"*/) TestClass]
   public class Tests : GherkinSpecBase
   {
-    public override void Background()
+    protected override void Background()
     {
       Step("Given a global administrator named 'Greg'");
       Step("And a blog named Greg's anti-tax rants");

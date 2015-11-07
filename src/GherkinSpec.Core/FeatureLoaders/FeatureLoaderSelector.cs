@@ -23,7 +23,7 @@ namespace GherkinSpec.Core.FeatureLoaders
         using (var reader = new FeatureHttpLoader().ReadFeatureContent(attr.FileAddress))
           return Conditional.From(parser.Parse(reader));
 
-      if (attr.Loader is IFeatureLoader)
+      if (attr.Loader.GetInterfaces().Any(t=>t == typeof(IFeatureLoader)))
       {
         var loader = (IFeatureLoader)Activator.CreateInstance(attr.Loader);
         using (var reader = loader.ReadFeatureContent(attr.LoaderParam))

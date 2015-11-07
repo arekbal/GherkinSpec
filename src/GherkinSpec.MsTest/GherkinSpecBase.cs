@@ -8,33 +8,34 @@ namespace GherkinSpec.MsTest
   [TestClass]
   public class GherkinSpecBase
   {
-    static GherkinSpecContext Ctx;
+    static GherkinSpecContext SpecContext;
 
     public TestContext TestContext { get; set; }
 
     static bool _isStaticInitialized;
 
     protected GherkinSpecBase()
-    {
-      if(!_isStaticInitialized)
-      {
-        Ctx = new GherkinSpecContext();
-
-        _isStaticInitialized = true;
-      }
-    }   
+    {      
+    }
 
     [TestInitialize]
     public void InitTest()
     {
+      if (!_isStaticInitialized)
+      {      
+        SpecContext = CreateSpecContext();
+
+        _isStaticInitialized = true;
+      }
+
       try
       {
         // forced so feature related state is processed per test
-        Ctx.InitFeature(this);
+        SpecContext.InitFeature(this);
 
         Background();
 
-        Ctx.InitScenario(TestContext.TestName);
+        SpecContext.InitScenario(TestContext.TestName);
 
         OnInitTest();
       }
@@ -45,15 +46,17 @@ namespace GherkinSpec.MsTest
       }
     }
 
-    public virtual void OnInitTest()
+    protected virtual GherkinSpecContext CreateSpecContext() => new GherkinSpecContext();
+
+    protected virtual void OnInitTest()
     {
     }
 
-    public virtual void OnCleanupTest()
+    protected virtual void OnCleanupTest()
     {
     }
 
-    public virtual void Background()
+    protected virtual void Background()
     {
     }
 
@@ -62,15 +65,15 @@ namespace GherkinSpec.MsTest
     {
       OnCleanupTest();
 
-      Ctx.CleanupScenario(TestContext.CurrentTestOutcome == UnitTestOutcome.Passed);
+      SpecContext.CleanupScenario(TestContext.CurrentTestOutcome == UnitTestOutcome.Passed);
 
       // forced so feature related state is processed per test
-      Ctx.CleanupFeature();
+      SpecContext.CleanupFeature();
     }
 
-    public void Step(string textStartingWithKeyword) => Ctx.Step(textStartingWithKeyword);
+    public void Step(string textStartingWithKeyword) => SpecContext.Step(textStartingWithKeyword);
 
-    protected static void Step(string keyword, string text) => Ctx.Step(keyword, text);
+    protected static void Step(string keyword, string text) => SpecContext.Step(keyword, text);
 
     public void Given(string precondition) => Step(nameof(Given), precondition);
   
@@ -82,16 +85,16 @@ namespace GherkinSpec.MsTest
 
     public void But(string precondition) => Step(nameof(But), precondition);
 
-    public IEnumerable<IReadOnlyDictionary<string, string>> ArgumentTable => Ctx.ArgumentTable;
+    public IEnumerable<IReadOnlyDictionary<string, string>> ArgumentTable => SpecContext.ArgumentTable;
 
-    public IEnumerable<string> ArgumentList => Ctx.ArgumentList;
+    public IEnumerable<string> ArgumentList => SpecContext.ArgumentList;
 
-    public IEnumerable<IReadOnlyDictionary<string, string>> ResultTable => Ctx.ArgumentTable;
+    public IEnumerable<IReadOnlyDictionary<string, string>> ResultTable => SpecContext.ArgumentTable;
 
-    public IEnumerable<string> ResultList => Ctx.ArgumentList;
+    public IEnumerable<string> ResultList => SpecContext.ArgumentList;
 
-    public ExampleSets ExampleSets => Ctx.ExampleSets;
+    public ExampleSets ExampleSets => SpecContext.ExampleSets;
 
-    public bool AllScenariosCovered => Ctx.AllScenariosCovered;
+    public bool AllScenariosCovered => SpecContext.AllScenariosCovered;
   }
 }
