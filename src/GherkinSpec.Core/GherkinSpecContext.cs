@@ -50,6 +50,7 @@ namespace GherkinSpec.Core
           throw FeatureError("Coudn't load Feature");
 
         CurrFeature = bFeature.Value;
+      }
 
         _writer.WriteLine(CurrFeature.Keyword.Trim(), CurrFeature.Name, this);
 
@@ -68,8 +69,7 @@ namespace GherkinSpec.Core
 
         _backgroundStep = 0;
 
-        _featureInitialized = true;
-      }
+        _featureInitialized = true;      
     }
 
     public ExampleSets ExampleSets
