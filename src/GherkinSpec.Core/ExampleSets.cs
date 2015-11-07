@@ -14,6 +14,11 @@ namespace GherkinSpec.Core
     IEnumerable<IEnumerable<IReadOnlyDictionary<string, string>>> Cells =>
       _examples.Select(d => GetRowsValues(d.TableHeader.Cells.Select(cell => cell.Value), d.TableBody));
 
+    public ExampleSets(IEnumerable<Examples> examples)
+    {
+      _examples = examples;
+    }
+
     public IEnumerable<IReadOnlyDictionary<string, string>> this[string exampleName]
     {
       get
@@ -26,9 +31,16 @@ namespace GherkinSpec.Core
       }
     }
 
-    public ExampleSets(IEnumerable<Examples> examples)
+    public IEnumerable<IReadOnlyDictionary<string, string>> this[int index]
     {
-      _examples = examples;
+      get
+      {
+        var example = _examples.ElementAt(index);
+
+        var columnNames = example.TableHeader.Cells.Select(d => d.Value);
+
+        return GetRowsValues(columnNames, example.TableBody);
+      }
     }
 
     public IEnumerator<IEnumerable<IReadOnlyDictionary<string, string>>> GetEnumerator() => Cells.GetEnumerator();

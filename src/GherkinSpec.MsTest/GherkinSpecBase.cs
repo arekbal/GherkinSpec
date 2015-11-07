@@ -66,6 +66,8 @@ namespace GherkinSpec.MsTest
     {
     }
 
+    protected IEnumerable<string> Tags => SpecContext.Tags;
+
     [TestCleanup]
     public void CleanupTest()
     {

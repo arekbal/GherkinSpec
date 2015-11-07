@@ -65,7 +65,7 @@ namespace GherkinSpec.Core
 
       _backgroundStep = 0;
 
-      _featureInitialized = true;      
+      _featureInitialized = true;   
     }
 
     public ExampleSets ExampleSets
@@ -193,6 +193,8 @@ namespace GherkinSpec.Core
       return CurrScenario.Steps.ElementAt(_scenarioStep);     
     }
 
+    public IEnumerable<string> Tags => CurrScenario != null ? CurrScenario.Tags.Select(t => t.Name) : CurrFeature.Tags.Select(t => t.Name);
+
     public void Step(string textStartingWithKeywordAndPlaceholders)
     {
       CurrStep = GetCurrStep();
@@ -258,9 +260,9 @@ namespace GherkinSpec.Core
         _backgroundStep++;
     }
 
-    bool IsArgumentTable => ((DataTable)CurrStep.Argument).Rows.First().Cells.Take(2).Count() > 1;
+    public bool IsArgumentTable => ((DataTable)CurrStep.Argument).Rows.First().Cells.Take(2).Count() > 1;
 
-    bool IsArgumentList => ((DataTable)CurrStep.Argument).Rows.First().Cells.Take(2).Count() == 1;
+    public bool IsArgumentList => ((DataTable)CurrStep.Argument).Rows.First().Cells.Take(2).Count() == 1;
 
     void WithArgumentTable()
     {

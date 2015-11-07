@@ -40,7 +40,7 @@
     <Reference Include="System.Net.Http" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ExampleSet.cs" />
+    <Compile Include="ExampleSets.cs" />
     <Compile Include="FeatureAttribute.cs" />
     <Compile Include="Loading\FeatureFileLoader.cs" />
     <Compile Include="Loading\FeatureHttpLoader.cs" />
