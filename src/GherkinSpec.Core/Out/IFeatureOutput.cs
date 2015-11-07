@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GherkinSpec.Core.FeatureWriting
+namespace GherkinSpec.Core.Out
 {
-  public interface IFeatureWriter
+  public interface IFeatureOutput
   {
     void Write(string keyword, string text, GherkinSpecContext specContext);
     void WriteLine(string keyword, string text, GherkinSpecContext specContext);

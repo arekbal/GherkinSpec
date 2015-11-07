@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using static System.String;
 
-namespace GherkinSpec.Core.FeatureLoading
+namespace GherkinSpec.Core.Loading
 {
   static class FeatureLoaderSelector
   {

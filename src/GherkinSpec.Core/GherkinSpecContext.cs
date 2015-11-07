@@ -6,8 +6,8 @@ using static System.String;
 
 namespace GherkinSpec.Core
 {
-  using FeatureLoading;
-  using FeatureWriting;
+  using Loading;
+  using Out;
   using static Helpers;
 
   public class GherkinSpecContext
@@ -26,17 +26,13 @@ namespace GherkinSpec.Core
 
     bool _featureInitialized;
 
-    IFeatureWriter _writer = null;
-
-    public GherkinSpecContext()
-    {  
-    }
-
+    IFeatureOutput _output;
+  
     public void InitFeature(object testContainer)
     {
       if (!_featureInitialized)
       {
-        _writer = CreateWriter();
+        _output = CreateOutput();
 
         TestContainer = testContainer;
 
@@ -52,24 +48,24 @@ namespace GherkinSpec.Core
         CurrFeature = bFeature.Value;
       }
 
-        _writer.WriteLine(CurrFeature.Keyword.Trim(), CurrFeature.Name, this);
+      _output.WriteLine(CurrFeature.Keyword.Trim(), CurrFeature.Name, this);
 
-        if (!IsNullOrWhiteSpace(CurrFeature.Description))
-          _writer.WriteLine(CurrFeature.Description, this);
+      if (!IsNullOrWhiteSpace(CurrFeature.Description))
+        _output.WriteLine(CurrFeature.Description, this);
 
-        _writer.WriteLine("", this);
+      _output.WriteLine("", this);
 
-        if (CurrFeature.Background != null)
-        {
-          _writer.WriteLine(CurrFeature.Background.Keyword.Trim(), CurrFeature.Background.Name, this);
+      if (CurrFeature.Background != null)
+      {
+        _output.WriteLine(CurrFeature.Background.Keyword.Trim(), CurrFeature.Background.Name, this);
 
-          if (!IsNullOrWhiteSpace(CurrFeature.Background.Description))
-            _writer.WriteLine(CurrFeature.Background.Description, this);
-        }
+        if (!IsNullOrWhiteSpace(CurrFeature.Background.Description))
+          _output.WriteLine(CurrFeature.Background.Description, this);
+      }
 
-        _backgroundStep = 0;
+      _backgroundStep = 0;
 
-        _featureInitialized = true;      
+      _featureInitialized = true;      
     }
 
     public ExampleSets ExampleSets
@@ -105,11 +101,11 @@ namespace GherkinSpec.Core
       if (CurrScenario == null)
         throw FeatureError($"There is no scenario under name: '{attr.ScenarioName}' defined in .feature file");
 
-      _writer.WriteLine("", this);
-      _writer.WriteLine(CurrScenario.Keyword.Trim(), CurrScenario.Name, this);
+      _output.WriteLine("", this);
+      _output.WriteLine(CurrScenario.Keyword.Trim(), CurrScenario.Name, this);
 
       if(!IsNullOrWhiteSpace(CurrScenario.Description))
-        _writer.WriteLine(CurrScenario.Description, this);
+        _output.WriteLine(CurrScenario.Description, this);
     }
 
     void ResetScenario()
@@ -122,7 +118,7 @@ namespace GherkinSpec.Core
 
     public void CleanupScenario(bool testPassed)
     {
-      _writer.WriteLine("", this);
+      _output.WriteLine("", this);
       
       if (testPassed)
       {
@@ -143,11 +139,9 @@ namespace GherkinSpec.Core
             ResetScenario();
             throw FeatureError("Not enough or too many steps");
           }
-          else
-          {
-            ResetScenario();
-            return;
-          }
+         
+          ResetScenario();
+          return;
         }
 
         if (CurrScenario != null && CurrScenario.Steps.Count() != _scenarioStep)
@@ -181,7 +175,7 @@ namespace GherkinSpec.Core
       }
     }
 
-    protected virtual IFeatureWriter CreateWriter() => new FeatureConsoleWriter();
+    protected virtual IFeatureOutput CreateOutput() => new FeatureConsoleOutput();
 
     Gherkin.Ast.Step GetCurrStep()
     {
@@ -197,6 +191,26 @@ namespace GherkinSpec.Core
       }
 
       return CurrScenario.Steps.ElementAt(_scenarioStep);     
+    }
+
+    public void Step(string textStartingWithKeywordAndPlaceholders)
+    {
+      CurrStep = GetCurrStep();
+
+      InternalStep(textStartingWithKeywordAndPlaceholders);
+    }
+
+    public void Step(string keyword, string textWithPlaceholders)
+    {
+      CurrStep = GetCurrStep();
+
+      if (CurrStep == null)
+        throw FeatureError("That step is not defined in specification");
+
+      if (CurrStep.Keyword.Trim() != keyword)
+        throw FeatureError($"Expected different keyword... expected: '{CurrStep.Keyword.Trim()}', got:'{keyword}'");
+
+      InternalStep($"{keyword} {textWithPlaceholders}");
     }
 
     void InternalStep(string textStartingWithKeywordAndPlaceholders)
@@ -223,9 +237,9 @@ namespace GherkinSpec.Core
         throw FeatureError($"Expected different text... expected: '{fullText}', got:'{textStartingWithKeywordAndPlaceholders}'");
 
       if (CurrScenario is ScenarioOutline)
-        _writer.WriteLine(fullText, this);
+        _output.WriteLine(fullText, this);
       else
-        _writer.WriteLine(CurrStep.Keyword.Trim(), CurrStep.Text, this);
+        _output.WriteLine(CurrStep.Keyword.Trim(), CurrStep.Text, this);
 
       if (CurrStep.Argument != null)
         if (IsArgumentList)
@@ -234,26 +248,6 @@ namespace GherkinSpec.Core
           WithArgumentTable();
 
       IncrementStep();
-    }
-
-    public void Step(string textStartingWithKeywordAndPlaceholders)
-    {
-      CurrStep = GetCurrStep();
-
-      InternalStep(textStartingWithKeywordAndPlaceholders);
-    }
-
-    public void Step(string keyword, string textWithPlaceholders)
-    {
-      CurrStep = GetCurrStep();
-
-      if (CurrStep == null)
-        throw FeatureError("That step is not defined in specification");
-
-      if (CurrStep.Keyword.Trim() != keyword)
-        throw FeatureError($"Expected different keyword... expected: '{CurrStep.Keyword}', got:'{keyword}'");
-
-      InternalStep($"{keyword} {textWithPlaceholders}");
     }
 
     void IncrementStep()
@@ -270,16 +264,16 @@ namespace GherkinSpec.Core
 
     void WithArgumentTable()
     {
-      _writer.WriteLine($"| {Join(" | ", ArgumentTable.First().Select(d => d.Key))} |", this);
+      _output.WriteLine($"| {Join(" | ", ArgumentTable.First().Select(d => d.Key))} |", this);
 
       foreach (var args in ArgumentTable)
-        _writer.WriteLine($"| {Join(" | ", args.Select(d => d.Value))} |", this);
+        _output.WriteLine($"| {Join(" | ", args.Select(d => d.Value))} |", this);
     }
 
     void WithArgumentList()
     {
       foreach (var arg in ArgumentList)
-        _writer.WriteLine($"| {arg} |", this);
+        _output.WriteLine($"| {arg} |", this);
     }
 
     void WithExamples()
@@ -288,11 +282,11 @@ namespace GherkinSpec.Core
 
       foreach (var examplesObject in outline.Examples)
       {
-        _writer.WriteLine(examplesObject.Keyword.Trim(), examplesObject.Name, this);
-        _writer.WriteLine($"| {Join(" | ", examplesObject.TableHeader.Cells.Select(d => d.Value))} |", this);
+        _output.WriteLine(examplesObject.Keyword.Trim(), examplesObject.Name, this);
+        _output.WriteLine($"| {Join(" | ", examplesObject.TableHeader.Cells.Select(d => d.Value))} |", this);
 
         foreach (var exampleRow in examplesObject.TableBody)
-          _writer.WriteLine($"| {Join(" | ", exampleRow.Cells.Select(d => d.Value))} |", this);
+          _output.WriteLine($"| {Join(" | ", exampleRow.Cells.Select(d => d.Value))} |", this);
       }
     }
 

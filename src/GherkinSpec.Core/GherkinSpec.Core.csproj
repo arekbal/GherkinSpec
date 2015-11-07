@@ -42,12 +42,12 @@
   <ItemGroup>
     <Compile Include="ExampleSet.cs" />
     <Compile Include="FeatureAttribute.cs" />
-    <Compile Include="FeatureLoading\FeatureFileLoader.cs" />
-    <Compile Include="FeatureLoading\FeatureHttpLoader.cs" />
-    <Compile Include="FeatureLoading\FeatureLoaderSelector.cs" />
-    <Compile Include="FeatureLoading\IFeatureLoader.cs" />
-    <Compile Include="FeatureWriting\FeatureConsoleWriter.cs" />
-    <Compile Include="FeatureWriting\IFeatureWriter.cs" />
+    <Compile Include="Loading\FeatureFileLoader.cs" />
+    <Compile Include="Loading\FeatureHttpLoader.cs" />
+    <Compile Include="Loading\FeatureLoaderSelector.cs" />
+    <Compile Include="Loading\IFeatureLoader.cs" />
+    <Compile Include="Out\FeatureConsoleOutput.cs" />
+    <Compile Include="Out\IFeatureOutput.cs" />
     <Compile Include="GherkinSpecContext.cs" />
     <Compile Include="Helpers.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

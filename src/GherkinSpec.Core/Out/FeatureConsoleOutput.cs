@@ -4,15 +4,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GherkinSpec.Core.FeatureWriting
+namespace GherkinSpec.Core.Out
 {
-  public class FeatureConsoleWriter : IFeatureWriter
+  public class FeatureConsoleOutput : IFeatureOutput
   {
+    public ConsoleColor? BackColor { get; set; }
     public ConsoleColor? KeywordColor { get; set; }
     public ConsoleColor? TextColor { get; set; }
-    public ConsoleColor? BackColor { get; set; }
 
-    public virtual void Write(string keyword, string text, GherkinSpecContext specContext)
+    public void Write(string keyword, string text, GherkinSpecContext specContext)
     {
       if (KeywordColor.HasValue)
         Console.ForegroundColor = KeywordColor.Value;
@@ -36,7 +36,20 @@ namespace GherkinSpec.Core.FeatureWriting
       Console.ResetColor();
     }
 
-    public virtual void WriteLine(string keyword, string text, GherkinSpecContext specContext)
+    public void Write(string text, GherkinSpecContext specContext)
+    {
+      if (TextColor.HasValue)
+        Console.ForegroundColor = TextColor.Value;
+
+      if (BackColor.HasValue)
+        Console.BackgroundColor = BackColor.Value;
+
+      Console.Write(text);
+
+      Console.ResetColor();
+    }
+
+    public void WriteLine(string keyword, string text, GherkinSpecContext specContext)
     {
       if (KeywordColor.HasValue)
         Console.ForegroundColor = KeywordColor.Value;
@@ -60,20 +73,7 @@ namespace GherkinSpec.Core.FeatureWriting
       Console.ResetColor();
     }
 
-    public virtual void Write(string text, GherkinSpecContext specContext)
-    {
-      if (TextColor.HasValue)
-        Console.ForegroundColor = TextColor.Value;
-
-      if (BackColor.HasValue)
-        Console.BackgroundColor = BackColor.Value;
-
-      Console.Write(text);
-
-      Console.ResetColor();
-    }
-
-    public virtual void WriteLine(string text, GherkinSpecContext specContext)
+    public void WriteLine(string text, GherkinSpecContext specContext)
     {
       if (TextColor.HasValue)
         Console.ForegroundColor = TextColor.Value;

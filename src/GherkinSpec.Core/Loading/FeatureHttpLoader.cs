@@ -6,7 +6,7 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GherkinSpec.Core.FeatureLoading
+namespace GherkinSpec.Core.Loading
 {
   public class FeatureHttpLoader : IFeatureLoader
   {
