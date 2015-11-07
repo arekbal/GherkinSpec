@@ -6,9 +6,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GherkinSpec.Core.FeatureLoaders
+namespace GherkinSpec.Core.FeatureLoading
 {
-  interface IFeatureLoader
+  public interface IFeatureLoader
   {
     TextReader ReadFeatureContent(string virtualPath);
   }

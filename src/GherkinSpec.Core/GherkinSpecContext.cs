@@ -6,7 +6,8 @@ using static System.String;
 
 namespace GherkinSpec.Core
 {
-  using FeatureLoaders;
+  using FeatureLoading;
+  using FeatureWriting;
   using static Helpers;
 
   public class GherkinSpecContext
@@ -25,6 +26,8 @@ namespace GherkinSpec.Core
 
     bool _featureInitialized;
 
+    IFeatureWriter _writer = null;
+
     public GherkinSpecContext()
     {  
     }
@@ -33,6 +36,8 @@ namespace GherkinSpec.Core
     {
       if (!_featureInitialized)
       {
+        _writer = CreateWriter();
+
         TestContainer = testContainer;
 
         var attr = (FeatureAttribute)TestContainer.GetType().GetCustomAttributes(typeof(FeatureAttribute), true).FirstOrDefault();
@@ -46,19 +51,19 @@ namespace GherkinSpec.Core
 
         CurrFeature = bFeature.Value;
 
-        WriteLine(CurrFeature.Keyword + ": " + CurrFeature.Name);
+        _writer.WriteLine(CurrFeature.Keyword.Trim(), CurrFeature.Name, this);
 
         if (!IsNullOrWhiteSpace(CurrFeature.Description))
-          WriteLine(CurrFeature.Description);
+          _writer.WriteLine(CurrFeature.Description, this);
 
-        WriteLine();
+        _writer.WriteLine("", this);
 
         if (CurrFeature.Background != null)
         {
-          WriteLine(CurrFeature.Background.Keyword + ": ");
+          _writer.WriteLine(CurrFeature.Background.Keyword.Trim(), CurrFeature.Background.Name, this);
 
           if (!IsNullOrWhiteSpace(CurrFeature.Background.Description))
-            WriteLine(CurrFeature.Background.Description);
+            _writer.WriteLine(CurrFeature.Background.Description, this);
         }
 
         _backgroundStep = 0;
@@ -100,11 +105,11 @@ namespace GherkinSpec.Core
       if (CurrScenario == null)
         throw FeatureError($"There is no scenario under name: '{attr.ScenarioName}' defined in .feature file");
 
-      WriteLine();
-      WriteLine($"{CurrScenario.Keyword}: {CurrScenario.Name}");
+      _writer.WriteLine("", this);
+      _writer.WriteLine(CurrScenario.Keyword.Trim(), CurrScenario.Name, this);
 
       if(!IsNullOrWhiteSpace(CurrScenario.Description))
-        WriteLine(CurrScenario.Description);
+        _writer.WriteLine(CurrScenario.Description, this);
     }
 
     void ResetScenario()
@@ -117,7 +122,7 @@ namespace GherkinSpec.Core
 
     public void CleanupScenario(bool testPassed)
     {
-      WriteLine();
+      _writer.WriteLine("", this);
       
       if (testPassed)
       {
@@ -176,17 +181,7 @@ namespace GherkinSpec.Core
       }
     }
 
-    protected virtual void WriteLine(string text="", ConsoleColor foreColor = ConsoleColor.DarkCyan, ConsoleColor backColor = ConsoleColor.Black)
-    {
-      Console.ForegroundColor = foreColor;
-      Console.BackgroundColor = backColor;
-
-      Console.WriteLine(text);
-      //TestContext.WriteLine(text);
-      //Debug.WriteLine(text);
-
-      Console.ResetColor();
-    }
+    protected virtual IFeatureWriter CreateWriter() => new FeatureConsoleWriter();
 
     Gherkin.Ast.Step GetCurrStep()
     {
@@ -227,7 +222,10 @@ namespace GherkinSpec.Core
       if (fullText.Trim() != textStartingWithKeywordAndPlaceholders)
         throw FeatureError($"Expected different text... expected: '{fullText}', got:'{textStartingWithKeywordAndPlaceholders}'");
 
-      WriteLine(fullText);
+      if (CurrScenario is ScenarioOutline)
+        _writer.WriteLine(fullText, this);
+      else
+        _writer.WriteLine(CurrStep.Keyword.Trim(), CurrStep.Text, this);
 
       if (CurrStep.Argument != null)
         if (IsArgumentList)
@@ -272,34 +270,30 @@ namespace GherkinSpec.Core
 
     void WithArgumentTable()
     {
-      WriteLine($"| {Join(" | ", ArgumentTable.First().Select(d => d.Key))} |");
+      _writer.WriteLine($"| {Join(" | ", ArgumentTable.First().Select(d => d.Key))} |", this);
 
       foreach (var args in ArgumentTable)
-        WriteLine($"| {Join(" | ", args.Select(d => d.Value))} |");
+        _writer.WriteLine($"| {Join(" | ", args.Select(d => d.Value))} |", this);
+    }
+
+    void WithArgumentList()
+    {
+      foreach (var arg in ArgumentList)
+        _writer.WriteLine($"| {arg} |", this);
     }
 
     void WithExamples()
     {
       var outline = (ScenarioOutline)CurrScenario;
 
-      foreach(var examplesObject in outline.Examples)
+      foreach (var examplesObject in outline.Examples)
       {
-        WriteLine($"{examplesObject.Keyword}: {examplesObject.Name}");
-        WriteLine($"| {Join(" | ", examplesObject.TableHeader.Cells.Select(d=>d.Value))} |");
-        
-        foreach(var exampleRow in examplesObject.TableBody)
-          WriteLine($"| {Join(" | ", exampleRow.Cells.Select(d => d.Value))} |");
-      }
-      //WriteLine($"| {Join(" | ", ArgumentTable.First().Select(d => d.Key))} |");
-      //
-      //foreach (var args in ArgumentTable)
-      //  WriteLine($"| {Join(" | ", args.Select(d => d.Value))} |");
-    }
+        _writer.WriteLine(examplesObject.Keyword.Trim(), examplesObject.Name, this);
+        _writer.WriteLine($"| {Join(" | ", examplesObject.TableHeader.Cells.Select(d => d.Value))} |", this);
 
-    void WithArgumentList()
-    {
-      foreach (var arg in ArgumentList)
-        WriteLine($"| {arg} |");
+        foreach (var exampleRow in examplesObject.TableBody)
+          _writer.WriteLine($"| {Join(" | ", exampleRow.Cells.Select(d => d.Value))} |", this);
+      }
     }
 
     public IEnumerable<string> ArgumentList => ((DataTable)CurrStep.Argument).Rows.Select(d=>d.Cells.First().Value);

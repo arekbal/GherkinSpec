@@ -3,8 +3,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using GherkinSpec.Core;
 using GherkinSpec.MsTest;
 using System.Linq;
-using System.Collections.Generic;
-using GherkinSpec.Core.FeatureLoaders;
+using GherkinSpec.Core.FeatureLoading;
 
 namespace GherkinSpec.Tests
 {
