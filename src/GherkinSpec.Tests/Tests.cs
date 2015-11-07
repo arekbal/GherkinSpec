@@ -3,7 +3,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using GherkinSpec.Core;
 using GherkinSpec.MsTest;
 using System.Linq;
-using GherkinSpec.Core.FeatureLoading;
+using GherkinSpec.Core.Loading;
 
 namespace GherkinSpec.Tests
 {
@@ -81,8 +81,6 @@ namespace GherkinSpec.Tests
 
           Step($"Then I should have {d["left"]} cucumbers");
         }
-
-      
     }
 
     [TestMethod]

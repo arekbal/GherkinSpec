@@ -4,22 +4,22 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using GherkinSpec.Core.FeatureWriting;
+using GherkinSpec.Core.Out;
 
 namespace GherkinSpec.MsTest
 {
   public class MsTestGherkinSpecContext : GherkinSpecContext
   {
-    readonly Func<IFeatureWriter> _writerFactory;
+    readonly Func<IFeatureOutput> _outputFactory;
 
-    public MsTestGherkinSpecContext(Func<IFeatureWriter> writerFactory)
+    public MsTestGherkinSpecContext(Func<IFeatureOutput> outputFactory)
     {
-      _writerFactory = writerFactory;
+      _outputFactory = outputFactory;
     }
 
-    protected override IFeatureWriter CreateWriter()
+    protected override IFeatureOutput CreateOutput()
     {
-      return _writerFactory();
+      return _outputFactory();
     }
   }
 }

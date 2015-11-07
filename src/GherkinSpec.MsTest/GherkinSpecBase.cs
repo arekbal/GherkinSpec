@@ -2,14 +2,14 @@
 using System.Collections.Generic;
 using GherkinSpec.Core;
 using System;
-using GherkinSpec.Core.FeatureWriting;
+using GherkinSpec.Core.Out;
 
 namespace GherkinSpec.MsTest
 {
   [TestClass]
   public class GherkinSpecBase
   {
-    static GherkinSpecContext SpecContext;
+    protected static GherkinSpecContext SpecContext;
 
     public TestContext TestContext { get; set; }
 
@@ -18,12 +18,7 @@ namespace GherkinSpec.MsTest
     protected GherkinSpecBase()
     {      
     }
-
-    protected virtual IFeatureWriter CreateFeatureWriter()
-    {
-      return new FeatureConsoleWriter();
-    }
-
+    
     [TestInitialize]
     public void InitTest()
     {
@@ -52,7 +47,12 @@ namespace GherkinSpec.MsTest
       }
     }
 
-    protected virtual GherkinSpecContext CreateSpecContext() => new MsTestGherkinSpecContext(CreateFeatureWriter);
+    protected virtual IFeatureOutput CreateFeatureOutput()
+    {
+      return new FeatureConsoleOutput();
+    }
+
+    protected virtual GherkinSpecContext CreateSpecContext() => new MsTestGherkinSpecContext(CreateFeatureOutput);
 
     protected virtual void OnInitTest()
     {

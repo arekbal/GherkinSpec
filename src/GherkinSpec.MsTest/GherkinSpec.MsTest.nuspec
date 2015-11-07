@@ -15,8 +15,7 @@
     <copyright>Copyright 2015</copyright>
     <tags>Gherkin BDD Tests MsTest</tags>
     <dependencies>
-      <dependency id="Gherkin" version="3.1.2" />
-      <dependency id="GherkinSpec.Core" version="1.0.0" />
+      <dependency id="GherkinSpec.Core" version="1.2.0" />
     </dependencies>
   </metadata>
 </package>
