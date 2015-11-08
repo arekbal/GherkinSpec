@@ -11,7 +11,7 @@ namespace GherkinSpec.Core
   {
     public string ScenarioName { get; }
 
-    public ScenarioAttribute(string scenarioName)
+    public ScenarioAttribute(string scenarioName=null)
     {
       ScenarioName = scenarioName;
     }

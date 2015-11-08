@@ -23,7 +23,7 @@ namespace GherkinSpec.Tests
       public string Name { get; set; }
     }
 
-    [Scenario("Buy last coffee") TestMethod]
+    [Scenario TestMethod]
     public void Buy_last_coffee()
     {
       Step("Given there are 1 coffees left in the machine");
@@ -41,8 +41,8 @@ namespace GherkinSpec.Tests
       var possibleResults = ResultList;
     }
 
-    [Scenario("Buy last coffee 2") TestMethod]
-    public void Buy_last_coffe_2()
+    [Scenario TestMethod]
+    public void Buy_last_coffee_2()
     {
       Step("Given there are 1 coffees left in the machine");
 
@@ -69,22 +69,22 @@ namespace GherkinSpec.Tests
     }        
  
     
-    [Scenario("Eating") TestMethod]
+    [Scenario TestMethod]
     public void Eating()
     {
       foreach (var exampleSet in ExampleSets)
-        foreach (var d in exampleSet)
+        foreach (var example in exampleSet)
         {
-          Step($"Given there are {d["start"]} cucumbers");
+          Step($"Given there are {example["start"]} cucumbers");
 
-          Step($"When I eat {d["eat"]} cucumbers");
+          Step($"When I eat {example["eat"]} cucumbers");
 
-          Step($"Then I should have {d["left"]} cucumbers");
+          Step($"Then I should have {example["left"]} cucumbers");
         }
     }
 
     [TestMethod]
-    public void All_scenarios_test_covered()
+    public void All_scenarios_covered()
     {
       Assert.IsTrue(AllScenariosCovered);
     }

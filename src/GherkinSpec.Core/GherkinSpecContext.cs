@@ -96,10 +96,12 @@ namespace GherkinSpec.Core
       if (attr == null)
         return;
 
-      CurrScenario = CurrFeature.ScenarioDefinitions.FirstOrDefault(d => d.Name == attr.ScenarioName);
+      var scenarioName = attr.ScenarioName ?? methodName.Replace('_', ' ');
+
+      CurrScenario = CurrFeature.ScenarioDefinitions.FirstOrDefault(d => d.Name == scenarioName);
 
       if (CurrScenario == null)
-        throw FeatureError($"There is no scenario under name: '{attr.ScenarioName}' defined in .feature file");
+        throw FeatureError($"There is no scenario under name: '{scenarioName}' defined in .feature file");
 
       _output.WriteLine("", this);
       _output.WriteLine(CurrScenario.Keyword.Trim(), CurrScenario.Name, this);
@@ -167,9 +169,9 @@ namespace GherkinSpec.Core
           TestContainer
           .GetType()
           .GetMethods()
-          .Select(method => (ScenarioAttribute)method.GetCustomAttributes(typeof(ScenarioAttribute), false).FirstOrDefault())
-          .Where(IsNotNull)
-          .Select(d => d.ScenarioName);
+          .Select(method => new { Method = method, Attrib = (ScenarioAttribute)method.GetCustomAttributes(typeof(ScenarioAttribute), false).FirstOrDefault() })
+          .Where(d=>IsNotNull(d.Attrib))
+          .Select(d => d.Attrib.ScenarioName ?? d.Method.Name.Replace('_', ' '));
 
         return CurrFeature.ScenarioDefinitions.All(d=> coveredScenarioNames.Contains(d.Name));
       }
