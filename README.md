@@ -9,7 +9,7 @@ https://www.nuget.org/packages/GherkinSpec.MsTest
 https://github.com/arekbal/GherkinSpec/blob/master/src/GherkinSpec.Tests/Tests.cs
 
 # GherkinSpec Generator - work in progress
-http://arekbal.github.io/gherkin_spec.html
+http://arekbal.github.io/gherkin_spec
 
 
 
