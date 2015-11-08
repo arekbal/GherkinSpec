@@ -8,7 +8,7 @@ https://www.nuget.org/packages/GherkinSpec.MsTest
 # Example - no asserts
 https://github.com/arekbal/GherkinSpec/blob/master/src/GherkinSpec.Tests/Tests.cs
 
-# GherkinSpec Generator - work in progress
+# GherkinSpec Generator
 http://arekbal.github.io/gherkin_spec
 
 
