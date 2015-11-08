@@ -7,9 +7,9 @@ F:\PROJECTS\GherkinSpec\src\GherkinSpec.Tests\bin\Release\Gherkin.dll
 F:\PROJECTS\GherkinSpec\src\GherkinSpec.Tests\bin\Release\GherkinSpec.Core.dll
 F:\PROJECTS\GherkinSpec\src\GherkinSpec.Tests\bin\Release\GherkinSpec.MsTest.dll
 F:\PROJECTS\GherkinSpec\src\GherkinSpec.Tests\bin\Release\Microsoft.VisualStudio.QualityTools.UnitTestFramework.dll
-F:\PROJECTS\GherkinSpec\src\GherkinSpec.Tests\bin\Release\GherkinSpec.Core.pdb
-F:\PROJECTS\GherkinSpec\src\GherkinSpec.Tests\bin\Release\GherkinSpec.MsTest.pdb
 F:\PROJECTS\GherkinSpec\src\GherkinSpec.Tests\obj\Release\GherkinSpec.Tests.csprojResolveAssemblyReference.cache
 F:\PROJECTS\GherkinSpec\src\GherkinSpec.Tests\obj\Release\GherkinSpec.Tests.dll
 F:\PROJECTS\GherkinSpec\src\GherkinSpec.Tests\obj\Release\GherkinSpec.Tests.pdb
 F:\PROJECTS\GherkinSpec\src\GherkinSpec.Tests\bin\Release\EatingData.csv
+F:\PROJECTS\GherkinSpec\src\GherkinSpec.Tests\bin\Release\GherkinSpec.Core.pdb
+F:\PROJECTS\GherkinSpec\src\GherkinSpec.Tests\bin\Release\GherkinSpec.MsTest.pdb

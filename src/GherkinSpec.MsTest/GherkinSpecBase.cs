@@ -49,7 +49,7 @@ namespace GherkinSpec.MsTest
 
     protected virtual IFeatureOutput CreateFeatureOutput()
     {
-      return new FeatureConsoleOutput();
+      return new FeatureFileOutput { FilePath = "TestResults.txt" };
     }
 
     protected virtual GherkinSpecContext CreateSpecContext() => new MsTestGherkinSpecContext(CreateFeatureOutput);

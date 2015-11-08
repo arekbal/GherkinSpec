@@ -46,6 +46,7 @@
     <Compile Include="Loading\FeatureHttpLoader.cs" />
     <Compile Include="Loading\FeatureLoaderSelector.cs" />
     <Compile Include="Loading\IFeatureLoader.cs" />
+    <Compile Include="Out\FeatureFileOutput.cs" />
     <Compile Include="Out\FeatureConsoleOutput.cs" />
     <Compile Include="Out\IFeatureOutput.cs" />
     <Compile Include="GherkinSpecContext.cs" />
