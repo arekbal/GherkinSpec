@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace GherkinSpec.Core.Out
 {
-  public interface IFeatureOutput
+  public interface IFeatureOutput : IDisposable
   {
     void Write(string keyword, string text, GherkinSpecContext specContext);
     void WriteLine(string keyword, string text, GherkinSpecContext specContext);

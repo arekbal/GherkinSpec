@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GherkinSpec.Core
+namespace GherkinSpec.Core.Meta
 {
   [AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]
   public sealed class FeatureAttribute : Attribute

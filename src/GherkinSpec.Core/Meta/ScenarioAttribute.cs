@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GherkinSpec.Core
+namespace GherkinSpec.Core.Meta
 {
   [AttributeUsage(AttributeTargets.Method, AllowMultiple = false)]
-  public sealed class ScenarioAttribute : Attribute
+  public sealed class ScenarioAttribute : Attribute, IScenarioAttribute
   {
     public string ScenarioName { get; }
 

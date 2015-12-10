@@ -85,5 +85,9 @@ namespace GherkinSpec.Core.Out
 
       Console.ResetColor();
     }
+
+    public void Dispose()
+    {      
+    }
   }
 }

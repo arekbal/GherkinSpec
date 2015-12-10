@@ -49,7 +49,7 @@ namespace GherkinSpec.MsTest
 
     protected virtual IFeatureOutput CreateFeatureOutput()
     {
-      return new FeatureFileOutput { FilePath = "TestResults.txt" };
+      return new FeatureConsoleOutput();
     }
 
     protected virtual GherkinSpecContext CreateSpecContext() => new MsTestGherkinSpecContext(CreateFeatureOutput);
@@ -93,9 +93,13 @@ namespace GherkinSpec.MsTest
 
     public void But(string precondition) => Step(nameof(But), precondition);
 
+    public string ArgumentString => SpecContext.ArgumentString;
+
     public IEnumerable<IReadOnlyDictionary<string, string>> ArgumentTable => SpecContext.ArgumentTable;
 
     public IEnumerable<string> ArgumentList => SpecContext.ArgumentList;
+
+    public string ResultString => SpecContext.ArgumentString;
 
     public IEnumerable<IReadOnlyDictionary<string, string>> ResultTable => SpecContext.ArgumentTable;
 

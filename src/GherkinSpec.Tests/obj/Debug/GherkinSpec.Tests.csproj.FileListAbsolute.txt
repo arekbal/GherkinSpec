@@ -13,3 +13,17 @@ F:\PROJECTS\GherkinSpec\src\GherkinSpec.Tests\obj\Debug\GherkinSpec.Tests.csproj
 F:\PROJECTS\GherkinSpec\src\GherkinSpec.Tests\obj\Debug\GherkinSpec.Tests.dll
 F:\PROJECTS\GherkinSpec\src\GherkinSpec.Tests\obj\Debug\GherkinSpec.Tests.pdb
 F:\PROJECTS\GherkinSpec\src\GherkinSpec.Tests\bin\Debug\EatingData.csv
+F:\PROJECTS\GherkinSpec\src\GherkinSpec.Tests\bin\Debug\xunit.abstractions.dll
+F:\PROJECTS\GherkinSpec\src\GherkinSpec.Tests\bin\Debug\xunit.runner.visualstudio.testadapter.dll
+F:\PROJECTS\GherkinSpec\src\GherkinSpec.Tests\bin\Debug\xunit.runner.utility.desktop.dll
+F:\PROJECTS\GherkinSpec\src\GherkinSpec.Tests\bin\Debug\GherkinSpec.XUnit.dll
+F:\PROJECTS\GherkinSpec\src\GherkinSpec.Tests\bin\Debug\xunit.assert.dll
+F:\PROJECTS\GherkinSpec\src\GherkinSpec.Tests\bin\Debug\xunit.core.dll
+F:\PROJECTS\GherkinSpec\src\GherkinSpec.Tests\bin\Debug\xunit.execution.desktop.dll
+F:\PROJECTS\GherkinSpec\src\GherkinSpec.Tests\bin\Debug\GherkinSpec.XUnit.pdb
+F:\PROJECTS\GherkinSpec\src\GherkinSpec.Tests\bin\Debug\xunit.assert.pdb
+F:\PROJECTS\GherkinSpec\src\GherkinSpec.Tests\bin\Debug\xunit.assert.xml
+F:\PROJECTS\GherkinSpec\src\GherkinSpec.Tests\bin\Debug\xunit.core.pdb
+F:\PROJECTS\GherkinSpec\src\GherkinSpec.Tests\bin\Debug\xunit.core.xml
+F:\PROJECTS\GherkinSpec\src\GherkinSpec.Tests\bin\Debug\xunit.execution.desktop.pdb
+F:\PROJECTS\GherkinSpec\src\GherkinSpec.Tests\bin\Debug\xunit.execution.desktop.xml

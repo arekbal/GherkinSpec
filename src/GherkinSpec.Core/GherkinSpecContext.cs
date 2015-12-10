@@ -6,6 +6,7 @@ using static System.String;
 
 namespace GherkinSpec.Core
 {
+  using Meta;
   using Loading;
   using Out;
   using static Helpers;
@@ -87,10 +88,10 @@ namespace GherkinSpec.Core
       
       _scenarioStep = 0;
 
-      var attr = (ScenarioAttribute)TestContainer
+      var attr = (IScenarioAttribute)TestContainer
         .GetType()
         .GetMethod(methodName)
-        .GetCustomAttributes(typeof(ScenarioAttribute), false)
+        .GetCustomAttributes(typeof(IScenarioAttribute), true)
         .FirstOrDefault();
 
       if (attr == null)
@@ -169,7 +170,7 @@ namespace GherkinSpec.Core
           TestContainer
           .GetType()
           .GetMethods()
-          .Select(method => new { Method = method, Attrib = (ScenarioAttribute)method.GetCustomAttributes(typeof(ScenarioAttribute), false).FirstOrDefault() })
+          .Select(method => new { Method = method, Attrib = (IScenarioAttribute)method.GetCustomAttributes(typeof(IScenarioAttribute), true).FirstOrDefault() })
           .Where(d=>IsNotNull(d.Attrib))
           .Select(d => d.Attrib.ScenarioName ?? d.Method.Name.Replace('_', ' '));
 
@@ -246,7 +247,9 @@ namespace GherkinSpec.Core
         _output.WriteLine(CurrStep.Keyword.Trim(), CurrStep.Text, this);
 
       if (CurrStep.Argument != null)
-        if (IsArgumentList)
+        if (IsArgumentString)
+          WithArgumentString();
+        else if (IsArgumentList)
           WithArgumentList();
         else
           WithArgumentTable();
@@ -262,9 +265,18 @@ namespace GherkinSpec.Core
         _backgroundStep++;
     }
 
-    public bool IsArgumentTable => ((DataTable)CurrStep.Argument).Rows.First().Cells.Take(2).Count() > 1;
+    public bool IsArgumentString => CurrStep.Argument is DocString;
 
-    public bool IsArgumentList => ((DataTable)CurrStep.Argument).Rows.First().Cells.Take(2).Count() == 1;
+    public bool IsArgumentTable => !IsArgumentString && ((DataTable)CurrStep.Argument).Rows.First().Cells.Take(2).Count() > 1;
+
+    public bool IsArgumentList => !IsArgumentString && ((DataTable)CurrStep.Argument).Rows.First().Cells.Take(2).Count() == 1;
+
+
+    void WithArgumentString()
+    {
+      var nl = Environment.NewLine;
+      _output.WriteLine($"\"\"\"{nl}{ArgumentString}{nl}\"\"\"", this);
+    }
 
     void WithArgumentTable()
     {
@@ -293,6 +305,8 @@ namespace GherkinSpec.Core
           _output.WriteLine($"| {Join(" | ", exampleRow.Cells.Select(d => d.Value))} |", this);
       }
     }
+
+    public string ArgumentString => ((DocString)CurrStep.Argument).Content;
 
     public IEnumerable<string> ArgumentList => ((DataTable)CurrStep.Argument).Rows.Select(d=>d.Cells.First().Value);
 

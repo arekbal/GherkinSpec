@@ -4,11 +4,12 @@ using GherkinSpec.Core;
 using GherkinSpec.MsTest;
 using System.Linq;
 using GherkinSpec.Core.Loading;
+using GherkinSpec.Core.Meta;
 
 namespace GherkinSpec.Tests
 {
   [Feature(Loader=typeof(FeatureFileLoader), LoaderParam="Feature.feature" /*FileAddress= "https://raw.githubusercontent.com/arekbal/arekbal.github.io/master/Feature.feature"*/) TestClass]
-  public class Tests : GherkinSpecBase
+  public class MsTests : GherkinSpecBase
   {
     protected override void Background()
     {
@@ -26,6 +27,10 @@ namespace GherkinSpec.Tests
     [Scenario TestMethod]
     public void Buy_last_coffee()
     {
+      Step("Given a blog post named \"Random\" with:");
+
+      var blogPostContent = ArgumentString;
+
       Step("Given there are 1 coffees left in the machine");
 
       Step("And I have deposited 1$");
@@ -35,7 +40,9 @@ namespace GherkinSpec.Tests
       var people = ArgumentTable.Select(d => new Person { Name = d["name"] });
 
       Step("When I press the coffee button");
+
       Step("Then I should be served a coffee");
+
       Step("Then the greeting service response will contain one of the following messages:");
 
       var possibleResults = ResultList;
@@ -66,8 +73,7 @@ namespace GherkinSpec.Tests
       public int start { get; set; }
       public int eat { get; set; }
       public int left { get; set; }
-    }        
- 
+    }
     
     [Scenario TestMethod]
     public void Eating()

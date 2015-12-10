@@ -1,4 +1,5 @@
 ﻿using Gherkin.Ast;
+using GherkinSpec.Core.Meta;
 using GherkinSpec.Core.Utils;
 using System;
 using System.Collections.Generic;
