@@ -3,7 +3,7 @@
   <metadata>
     <id>$id$</id>
     <version>$version$</version>
-    <title>$title$</title>
+    <title>GherkinSpec.MsTest</title>
     <authors>$author$</authors>
     <owners>$author$</owners>
     <licenseUrl>https://wiki.creativecommons.org/wiki/CC0</licenseUrl>
@@ -11,11 +11,11 @@
     <!--<iconUrl>http://ICON_URL_HERE_OR_DELETE_THIS_LINE</iconUrl>-->
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>$description$</description>
-    <releaseNotes>Setting up</releaseNotes>
+    <releaseNotes>Support for PyStrings as ArgumentString/ResultString</releaseNotes>
     <copyright>Copyright 2015</copyright>
     <tags>Gherkin BDD Tests MsTest</tags>
     <dependencies>
-      <dependency id="GherkinSpec.Core" version="1.2.0" />
+      <dependency id="GherkinSpec.Core" version="1.4.0" />
     </dependencies>
   </metadata>
 </package>

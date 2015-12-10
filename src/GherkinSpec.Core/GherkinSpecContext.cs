@@ -30,7 +30,7 @@ namespace GherkinSpec.Core
     IFeatureOutput _output;
   
     public void InitFeature(object testContainer)
-    {
+    { 
       if (!_featureInitialized)
       {
         _output = CreateOutput();
