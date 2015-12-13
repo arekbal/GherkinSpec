@@ -196,7 +196,10 @@ namespace GherkinSpec.Core
       return CurrScenario.Steps.ElementAt(_scenarioStep);     
     }
 
-    public IEnumerable<string> Tags => CurrScenario != null ? CurrScenario.Tags.Select(t => t.Name) : CurrFeature.Tags.Select(t => t.Name);
+    public IEnumerable<string> Tags => 
+      CurrScenario != null ?
+        CurrFeature.Tags.Concat(CurrScenario.Tags).Select(t => t.Name.Substring(1)) :
+        CurrFeature.Tags.Select(t => t.Name.Substring(1));
 
     public void Step(string textStartingWithKeywordAndPlaceholders)
     {

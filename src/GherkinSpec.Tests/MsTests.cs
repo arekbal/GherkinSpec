@@ -8,11 +8,16 @@ using GherkinSpec.Core.Meta;
 
 namespace GherkinSpec.Tests
 {
-  [Feature(Loader=typeof(FeatureFileLoader), LoaderParam="Feature.feature" /*FileAddress= "https://raw.githubusercontent.com/arekbal/arekbal.github.io/master/Feature.feature"*/) TestClass]
+  [Feature(Loader = typeof(FeatureFileLoader), LoaderParam = "Feature.feature" /*FileAddress= "https://raw.githubusercontent.com/arekbal/arekbal.github.io/master/Feature.feature"*/) TestClass]
   public class MsTests : GherkinSpecBase
   {
     protected override void Background()
     {
+      //Feature: @hicking
+      var tags = Tags.ToList();
+      Assert.IsTrue(tags.Count == 1 && tags.All(d =>
+        d == "hicking"));
+
       Step("Given a global administrator named 'Greg'");
       Step("And a blog named Greg's anti-tax rants");
       Step("And a customer named 'Wilson'");
@@ -27,6 +32,12 @@ namespace GherkinSpec.Tests
     [Scenario TestMethod]
     public void Buy_last_coffee()
     {
+      //Feature: @hicking
+      //Scenario: @billing @bicker @annoy  
+      var tags = Tags.ToList();      
+      Assert.IsTrue(tags.Count == 4 && tags.All(d => 
+        d == "hicking" || d == "billing" || d == "bicker" || d == "annoy"));
+
       Step("Given a blog post named \"Random\" with:");
 
       var blogPostContent = ArgumentString;
