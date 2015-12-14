@@ -9,8 +9,9 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>GherkinSpec.XUnit</RootNamespace>
     <AssemblyName>GherkinSpec.XUnit</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -58,10 +59,11 @@
   <ItemGroup>
     <Compile Include="GherkinSpecBase.cs" />
     <Compile Include="XUnitContextToFeatureMapper.cs" />
-    <Compile Include="FeatureAttribute.cs" />
+    <Compile Include="XUnitFeatureAttribute.cs" />
     <Compile Include="XUnitFeatureOutput.cs" />
     <Compile Include="XUnitGherkinSpecContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="IXUnitGherkinSpecContextProvider.cs" />
     <Compile Include="XUnitScenarioAttribute.cs" />
   </ItemGroup>
   <ItemGroup>

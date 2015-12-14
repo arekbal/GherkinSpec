@@ -49,7 +49,7 @@ namespace GherkinSpec.Core
         CurrFeature = bFeature.Value;
       }
 
-      _output.WriteLine(CurrFeature.Keyword.Trim(), CurrFeature.Name, this);
+      _output.WriteLine(CurrFeature.Keyword.Trim(), ": " + CurrFeature.Name, this);
 
       if (!IsNullOrWhiteSpace(CurrFeature.Description))
         _output.WriteLine(CurrFeature.Description, this);
@@ -58,7 +58,7 @@ namespace GherkinSpec.Core
 
       if (CurrFeature.Background != null)
       {
-        _output.WriteLine(CurrFeature.Background.Keyword.Trim(), CurrFeature.Background.Name, this);
+        _output.WriteLine(CurrFeature.Background.Keyword.Trim(), ": " + CurrFeature.Background.Name, this);
 
         if (!IsNullOrWhiteSpace(CurrFeature.Background.Description))
           _output.WriteLine(CurrFeature.Background.Description, this);
@@ -105,7 +105,7 @@ namespace GherkinSpec.Core
         throw FeatureError($"There is no scenario under name: '{scenarioName}' defined in .feature file");
 
       _output.WriteLine("", this);
-      _output.WriteLine(CurrScenario.Keyword.Trim(), CurrScenario.Name, this);
+      _output.WriteLine(CurrScenario.Keyword.Trim(), ": " + CurrScenario.Name, this);
 
       if(!IsNullOrWhiteSpace(CurrScenario.Description))
         _output.WriteLine(CurrScenario.Description, this);
@@ -218,10 +218,50 @@ namespace GherkinSpec.Core
       if (CurrStep.Keyword.Trim() != keyword)
         throw FeatureError($"Expected different keyword... expected: '{CurrStep.Keyword.Trim()}', got:'{keyword}'");
 
-      InternalStep($"{keyword} {textWithPlaceholders}");
+      InternalStep(keyword, textWithPlaceholders);
     }
 
+    void InternalStep(string keyword, string textWithPlaceholders)
+    {
+      var textStartingWithKeywordAndPlaceholders = $"{keyword} {textWithPlaceholders}";
+
+      ValidateScenario(textStartingWithKeywordAndPlaceholders);
+
+      if (CurrScenario is ScenarioOutline)
+        _output.WriteLine(keyword, textWithPlaceholders, this);
+      else
+        _output.WriteLine(CurrStep.Keyword.Trim(), " " + CurrStep.Text, this);
+
+      PrintArguments();
+
+      IncrementStep();
+    }
     void InternalStep(string textStartingWithKeywordAndPlaceholders)
+    {
+      ValidateScenario(textStartingWithKeywordAndPlaceholders);
+
+      if (CurrScenario is ScenarioOutline)
+        _output.WriteLine(textStartingWithKeywordAndPlaceholders, this);
+      else
+        _output.WriteLine(CurrStep.Keyword.Trim(), " " + CurrStep.Text, this);
+
+      PrintArguments();
+
+      IncrementStep();
+    }
+
+    private void PrintArguments()
+    {
+      if (CurrStep.Argument != null)
+        if (IsArgumentString)
+          WithArgumentString();
+        else if (IsArgumentList)
+          WithArgumentList();
+        else
+          WithArgumentTable();
+    }
+
+    private void ValidateScenario(string textStartingWithKeywordAndPlaceholders)
     {
       var fullText = $"{CurrStep.Keyword.Trim()} {CurrStep.Text}";
 
@@ -243,21 +283,6 @@ namespace GherkinSpec.Core
 
       if (fullText.Trim() != textStartingWithKeywordAndPlaceholders)
         throw FeatureError($"Expected different text... expected: '{fullText}', got:'{textStartingWithKeywordAndPlaceholders}'");
-
-      if (CurrScenario is ScenarioOutline)
-        _output.WriteLine(fullText, this);
-      else
-        _output.WriteLine(CurrStep.Keyword.Trim(), CurrStep.Text, this);
-
-      if (CurrStep.Argument != null)
-        if (IsArgumentString)
-          WithArgumentString();
-        else if (IsArgumentList)
-          WithArgumentList();
-        else
-          WithArgumentTable();
-
-      IncrementStep();
     }
 
     void IncrementStep()
@@ -301,7 +326,7 @@ namespace GherkinSpec.Core
 
       foreach (var examplesObject in outline.Examples)
       {
-        _output.WriteLine(examplesObject.Keyword.Trim(), examplesObject.Name, this);
+        _output.WriteLine(examplesObject.Keyword.Trim(), ": " + examplesObject.Name, this);
         _output.WriteLine($"| {Join(" | ", examplesObject.TableHeader.Cells.Select(d => d.Value))} |", this);
 
         foreach (var exampleRow in examplesObject.TableBody)

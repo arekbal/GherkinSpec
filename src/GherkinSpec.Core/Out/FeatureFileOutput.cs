@@ -20,11 +20,11 @@ namespace GherkinSpec.Core.Out
       _fileStream = File.Open(filePath, FileMode.Append);
     }
 
-    public void Write(string keyword, string text, GherkinSpecContext specContext) => File.AppendAllText(FilePath, $"{keyword}: {text}");
+    public void Write(string keyword, string text, GherkinSpecContext specContext) => File.AppendAllText(FilePath, $"{keyword}{text}");
 
     public void Write(string text, GherkinSpecContext specContext) => File.AppendAllText(FilePath, text);
 
-    public void WriteLine(string keyword, string text, GherkinSpecContext specContext) => File.AppendAllText(FilePath, $"{keyword}: {text}{Environment.NewLine}");
+    public void WriteLine(string keyword, string text, GherkinSpecContext specContext) => File.AppendAllText(FilePath, $"{keyword}{text}{Environment.NewLine}");
 
     public void WriteLine(string text, GherkinSpecContext specContext) => File.AppendAllText(FilePath, text + Environment.NewLine);
 

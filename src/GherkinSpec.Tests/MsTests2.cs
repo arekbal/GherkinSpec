@@ -8,8 +8,8 @@ using GherkinSpec.Core.Meta;
 
 namespace GherkinSpec.Tests
 {
-  [Feature(Loader = typeof(FeatureFileLoader), LoaderParam = "Feature.feature" /*FileAddress= "https://raw.githubusercontent.com/arekbal/arekbal.github.io/master/Feature.feature"*/) TestClass]
-  public class MsTests : GherkinSpecBase
+  [Feature(Loader = typeof(FeatureFileLoader), LoaderParam = "Feature2.feature" /*FileAddress= "https://raw.githubusercontent.com/arekbal/arekbal.github.io/master/Feature.feature"*/) TestClass]
+  public class MsTests2 : GherkinSpecBase
   {
     protected override void Background()
     {
@@ -30,7 +30,7 @@ namespace GherkinSpec.Tests
     }
 
     [Scenario TestMethod]
-    public void Buy_last_coffee()
+    public void MsTests2_Buy_last_coffee()
     {
       //Feature: @hicking
       //Scenario: @billing @bicker @annoy  
@@ -38,7 +38,7 @@ namespace GherkinSpec.Tests
       Assert.IsTrue(tags.Count == 4 && tags.All(d => 
         d == "hicking" || d == "billing" || d == "bicker" || d == "annoy"));
 
-      Step("Given", "a blog post named \"Random\" with:");
+      Step("Given a blog post named \"Random\" with:");
 
       var blogPostContent = ArgumentString;
 
@@ -60,7 +60,7 @@ namespace GherkinSpec.Tests
     }
 
     [Scenario TestMethod]
-    public void Buy_last_coffee_2()
+    public void MsTests2_Buy_last_coffee_2()
     {
       Step("Given there are 1 coffees left in the machine");
 
@@ -87,7 +87,7 @@ namespace GherkinSpec.Tests
     }
     
     [Scenario TestMethod]
-    public void Eating()
+    public void MsTests2_Eating()
     {
       foreach (var exampleSet in ExampleSets)
         foreach (var example in exampleSet)

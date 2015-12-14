@@ -9,11 +9,9 @@ namespace GherkinSpec.MsTest
   [TestClass]
   public class GherkinSpecBase
   {
-    protected static GherkinSpecContext SpecContext;
+    protected GherkinSpecContext SpecContext;
 
     public TestContext TestContext { get; set; }
-
-    static bool _isStaticInitialized;
 
     protected GherkinSpecBase()
     {      
@@ -21,13 +19,8 @@ namespace GherkinSpec.MsTest
     
     [TestInitialize]
     public void InitTest()
-    {
-      if (!_isStaticInitialized)
-      {      
-        SpecContext = CreateSpecContext();
-
-        _isStaticInitialized = true;
-      }
+    {        
+      SpecContext = CreateSpecContext();
 
       try
       {
@@ -81,7 +74,7 @@ namespace GherkinSpec.MsTest
 
     public void Step(string textStartingWithKeyword) => SpecContext.Step(textStartingWithKeyword);
 
-    protected static void Step(string keyword, string text) => SpecContext.Step(keyword, text);
+    protected void Step(string keyword, string text) => SpecContext.Step(keyword, text);
 
     public void Given(string precondition) => Step(nameof(Given), precondition);
   

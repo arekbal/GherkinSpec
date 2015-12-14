@@ -21,7 +21,6 @@ namespace GherkinSpec.Core.Out
         Console.BackgroundColor = BackColor.Value;
 
       Console.Write(keyword);
-      Console.Write(": ");
 
       Console.ResetColor();
 
@@ -58,7 +57,6 @@ namespace GherkinSpec.Core.Out
         Console.BackgroundColor = BackColor.Value;
 
       Console.Write(keyword);
-      Console.Write(": ");
 
       Console.ResetColor();
 

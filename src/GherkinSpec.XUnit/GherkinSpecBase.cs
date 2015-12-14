@@ -5,18 +5,27 @@ using GherkinSpec.Core.Out;
 using Xunit.Abstractions;
 using Xunit;
 using System.Linq;
+using System.Threading;
 
 namespace GherkinSpec.XUnit
 { 
-  public class GherkinSpecBase : IDisposable
+  public class GherkinSpecBase : IDisposable, IXUnitGherkinSpecContextProvider, IClassFixture<XUnitGherkinSpecContext>
   {
     readonly XUnitGherkinSpecContext _specContext;
+
+    XUnitGherkinSpecContext IXUnitGherkinSpecContextProvider.SpecContext => _specContext;
+
+    static AsyncLocal<GherkinSpecBase> _current = new AsyncLocal<GherkinSpecBase>();
+
+    public static GherkinSpecBase Curr => _current.Value;
 
     protected GherkinSpecBase(XUnitGherkinSpecContext specContext)
     {
       var attr = (XUnitFeatureAttribute)GetType().GetCustomAttributes(typeof(XUnitFeatureAttribute), true).FirstOrDefault();
 
       //attr.B
+
+      _current.Value = this;
 
       _specContext = specContext;
       _specContext.InitFeature(this);
@@ -25,6 +34,10 @@ namespace GherkinSpec.XUnit
     }
 
     protected IEnumerable<string> Tags => _specContext.Tags;  
+
+    public virtual void Background()
+    {
+    }
 
     public void Step(string textStartingWithKeyword) => _specContext.Step(textStartingWithKeyword);
 
@@ -57,5 +70,7 @@ namespace GherkinSpec.XUnit
     public ExampleSets ExampleSets => _specContext.ExampleSets;
 
     public bool AllScenariosCovered => _specContext.AllScenariosCovered;
+
+    
   }
 }
