@@ -1,4 +1,5 @@
-﻿Feature: Serve coffee
+﻿@hicking
+Feature: Serve coffee
     Coffee should not be served until paid for
     Coffee should not be served until the button has been pressed
     If there is no coffee left then money should be refunded
@@ -9,6 +10,7 @@
     And a customer named 'Wilson'
     And a blog named 'Expensive Therapy' owned by 'Wilson'
 
+  @billing @bicker @annoy
   Scenario: Buy last coffee
     Given a blog post named "Random" with:
     """

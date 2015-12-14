@@ -27,3 +27,6 @@ F:\PROJECTS\GherkinSpec\src\GherkinSpec.Tests\bin\Release\xunit.runner.visualstu
 F:\PROJECTS\GherkinSpec\src\GherkinSpec.Tests\bin\Release\xunit.runner.utility.desktop.dll
 F:\PROJECTS\GherkinSpec\src\GherkinSpec.Tests\bin\Release\GherkinSpec.XUnit.dll
 F:\PROJECTS\GherkinSpec\src\GherkinSpec.Tests\bin\Release\GherkinSpec.XUnit.pdb
+F:\PROJECTS\GherkinSpec\src\GherkinSpec.Tests\bin\Release\Feature2.feature
+F:\PROJECTS\GherkinSpec\src\GherkinSpec.Tests\bin\Release\nunit.framework.dll
+F:\PROJECTS\GherkinSpec\src\GherkinSpec.Tests\bin\Release\nunit.framework.xml

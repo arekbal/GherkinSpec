@@ -33,7 +33,7 @@ namespace GherkinSpec.MsTest
 
         OnInitTest();
       }
-      catch (Exception ex)
+      catch (Exception)
       {
         CleanupTest();
         throw;
