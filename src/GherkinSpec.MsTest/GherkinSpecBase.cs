@@ -7,9 +7,14 @@ using GherkinSpec.Core.Out;
 namespace GherkinSpec.MsTest
 {
   [TestClass]
-  public class GherkinSpecBase
+  public class GherkinSpecBase : InternalGherkinSpecBase
   {
-    protected GherkinSpecContext SpecContext;
+    GherkinSpecContext _specContext;
+
+    protected override sealed GherkinSpecContext GetSpecContext()
+    {
+      return _specContext;
+    }
 
     public TestContext TestContext { get; set; }
 
@@ -18,24 +23,24 @@ namespace GherkinSpec.MsTest
     }
     
     [TestInitialize]
-    public void InitTest()
+    public void TestInitialize()
     {        
-      SpecContext = CreateSpecContext();
+      _specContext = CreateSpecContext();
 
       try
       {
         // forced so feature related state is processed per test
-        SpecContext.InitFeature(this);
+        _specContext.InitFeature(this);
 
         Background();
 
-        SpecContext.InitScenario(TestContext.TestName);
-
-        OnInitTest();
+        OnInitScenario();
+     
+        _specContext.InitScenario(TestContext.TestName);        
       }
       catch (Exception)
       {
-        CleanupTest();
+        TestCleanup();
         throw;
       }
     }
@@ -47,59 +52,17 @@ namespace GherkinSpec.MsTest
 
     protected virtual GherkinSpecContext CreateSpecContext() => new MsTestGherkinSpecContext(CreateFeatureOutput);
 
-    protected virtual void OnInitTest()
-    {
-    }
-
-    protected virtual void OnCleanupTest()
-    {
-    }
-
-    protected virtual void Background()
-    {
-    }
-
-    protected IEnumerable<string> Tags => SpecContext.Tags;
-
     [TestCleanup]
-    public void CleanupTest()
+    public void TestCleanup()
     {
-      OnCleanupTest();
+      var testpassed = TestContext.CurrentTestOutcome == UnitTestOutcome.Passed;
 
-      SpecContext.CleanupScenario(TestContext.CurrentTestOutcome == UnitTestOutcome.Passed);
+      OnCleanupScenario(testpassed);
+
+      _specContext.CleanupScenario(testpassed);
 
       // forced so feature related state is processed per test
-      SpecContext.CleanupFeature();
+      _specContext.CleanupFeature();
     }
-
-    public void Step(string textStartingWithKeyword) => SpecContext.Step(textStartingWithKeyword);
-
-    protected void Step(string keyword, string text) => SpecContext.Step(keyword, text);
-
-    public void Given(string precondition) => Step(nameof(Given), precondition);
-  
-    public void When(string precondition) => Step(nameof(When), precondition);
-
-    public void Then(string precondition) => Step(nameof(Then), precondition);
-
-    public void And(string precondition) => Step(nameof(And), precondition);
-
-    public void But(string precondition) => Step(nameof(But), precondition);
-
-    public string ArgumentString => SpecContext.ArgumentString;
-
-    public IEnumerable<IReadOnlyDictionary<string, string>> ArgumentTable => SpecContext.ArgumentTable;
-
-    public IEnumerable<string> ArgumentList => SpecContext.ArgumentList;
-
-    public string ResultString => SpecContext.ArgumentString;
-
-    public IEnumerable<IReadOnlyDictionary<string, string>> ResultTable => SpecContext.ArgumentTable;
-
-    public IEnumerable<string> ResultList => SpecContext.ArgumentList;
-
-    public ExampleSets ExampleSets => SpecContext.ExampleSets;
-
-    public bool AllScenariosCovered => SpecContext.AllScenariosCovered;
   }
 }

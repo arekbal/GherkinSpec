@@ -12,17 +12,9 @@ namespace GherkinSpec.Core.Loading
 {
   static class FeatureLoaderSelector
   {
-    public static Conditional<Feature> Select(FeatureAttribute attr)
+    public static Conditional<Feature> Select(IFeatureAttribute attr)
     {
-      var parser = new Gherkin.Parser();
-
-      if (!IsNullOrWhiteSpace(attr.FilePath))
-        using (var reader = new FeatureFileLoader().ReadFeatureContent(attr.FilePath))
-          return Conditional.From(parser.Parse(reader));
-
-      if (!IsNullOrWhiteSpace(attr.FileAddress))
-        using (var reader = new FeatureHttpLoader().ReadFeatureContent(attr.FileAddress))
-          return Conditional.From(parser.Parse(reader));
+      var parser = new Gherkin.Parser();    
 
       if (attr.Loader.GetInterfaces().Any(t=>t == typeof(IFeatureLoader)))
       {

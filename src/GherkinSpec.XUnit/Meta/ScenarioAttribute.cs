@@ -7,9 +7,10 @@ using System.Threading.Tasks;
 using Xunit;
 using Xunit.Sdk;
 
-namespace GherkinSpec.XUnit
+namespace GherkinSpec.XUnit.Meta
 {
-  public class XUnitScenarioAttribute : FactAttribute, IScenarioAttribute
+  [AttributeUsage(AttributeTargets.Method, AllowMultiple = false)]
+  public class ScenarioAttribute : FactAttribute, IScenarioAttribute
   {
     public string ScenarioName
     {

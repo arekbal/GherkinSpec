@@ -1,60 +1,52 @@
-﻿using GherkinSpec.Core;
-using GherkinSpec.Core.Loading;
-using GherkinSpec.Core.Meta;
+﻿using GherkinSpec.Core.Loading;
 using GherkinSpec.XUnit;
-using System;
-using System.Collections.Generic;
+using GherkinSpec.XUnit.Meta;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Xunit;
 using Xunit.Abstractions;
 
 
 namespace GherkinSpec.Tests
 {
-  
-  [XUnitFeature]
   [Feature(Loader = typeof(FeatureFileLoader), LoaderParam = "Feature.feature" /*FileAddress= "https://raw.githubusercontent.com/arekbal/arekbal.github.io/master/Feature.feature"*/)]
   public class XUnitTests : GherkinSpecBase
   {
-    class SpecContext : XUnitGherkinSpecContext
-    {
-      public SpecContext(ITestOutputHelper outputHelper)
-        :base(outputHelper)
-      {
-      }
 
-      public override void Background()
-      {
-        base.Background();
-      }
-    }
-
-    //protected override void Background()
-    //{
-    //  //Feature: @hicking
-    //  var tags = Tags.ToList();
-    //  //Assert.IsTrue(tags.Count == 1 && tags.All(d =>
-    //  //  d == "hicking"));
-
-    //  Step("Given a global administrator named 'Greg'");
-    //  Step("And a blog named Greg's anti-tax rants");
-    //  Step("And a customer named 'Wilson'");
-    //  Step("And a blog named 'Expensive Therapy' owned by 'Wilson'");
-    //}
 
     public XUnitTests(ITestOutputHelper outputHelper)
-      :base(new SpecContext(outputHelper))
+      :base(outputHelper)
     {
     }
+
+    protected override void OnInitScenario()
+    {
+      base.OnInitScenario();
+    }
+
+    protected override void OnCleanupScenario(bool testPassed)
+    {
+      base.OnCleanupScenario(testPassed);
+    }
+
+    protected override void Background()
+    {
+      //Feature: @hicking
+      var tags = Tags.ToList();
+      //Assert.IsTrue(tags.Count == 1 && tags.All(d =>
+      //  d == "hicking"));
+
+      Step("Given a global administrator named 'Greg'");
+      Step("And a blog named Greg's anti-tax rants");
+      Step("And a customer named 'Wilson'");
+      Step("And a blog named 'Expensive Therapy' owned by 'Wilson'");
+    }   
 
     public class Person
     {
       public string Name { get; set; }
     }
 
-    [XUnitScenario]
+    [Scenario]
     public void Buy_last_coffee()
     {
       //Feature: @hicking
@@ -84,7 +76,7 @@ namespace GherkinSpec.Tests
       var possibleResults = ResultList;
     }
 
-    [XUnitScenario]
+    [Scenario]
     public void Buy_last_coffee_2()
     {
       Step("Given there are 1 coffees left in the machine");
@@ -111,7 +103,7 @@ namespace GherkinSpec.Tests
       public int left { get; set; }
     }
 
-    [XUnitScenario]
+    [Scenario]
     public void Eating()
     {
       foreach (var exampleSet in ExampleSets)

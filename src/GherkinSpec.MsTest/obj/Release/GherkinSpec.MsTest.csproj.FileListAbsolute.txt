@@ -6,3 +6,4 @@ F:\PROJECTS\GherkinSpec\src\GherkinSpec.MsTest\bin\Release\Gherkin.dll
 F:\PROJECTS\GherkinSpec\src\GherkinSpec.MsTest\obj\Release\GherkinSpec.MsTest.csprojResolveAssemblyReference.cache
 F:\PROJECTS\GherkinSpec\src\GherkinSpec.MsTest\obj\Release\GherkinSpec.MsTest.dll
 F:\PROJECTS\GherkinSpec\src\GherkinSpec.MsTest\obj\Release\GherkinSpec.MsTest.pdb
+F:\PROJECTS\GherkinSpec\src\GherkinSpec.MsTest\bin\Release\GherkinSpec.Core.pdb

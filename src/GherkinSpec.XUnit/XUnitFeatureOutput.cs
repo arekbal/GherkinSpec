@@ -13,7 +13,7 @@ namespace GherkinSpec.XUnit
   {
     readonly ITestOutputHelper _outputHelper;
 
-    string _buffer;
+    readonly StringBuilder _buffer = new StringBuilder();
 
     public XUnitFeatureOutput(ITestOutputHelper outputHelper)
     {
@@ -22,38 +22,41 @@ namespace GherkinSpec.XUnit
 
     public void Write(string text, GherkinSpecContext specContext)
     {
-      _buffer += text;
+      _buffer.Append(text);
     }
 
     public void Write(string keyword, string text, GherkinSpecContext specContext)
     {
-      _buffer += keyword + ": " + text;
+      _buffer.Append(keyword);
+      _buffer.Append(text);
     }
 
     public void WriteLine(string text, GherkinSpecContext specContext)
     {
-      _buffer += text;
+      _buffer.Append(text);
 
-      _outputHelper.WriteLine(_buffer);
+      _outputHelper.WriteLine(_buffer.ToString());
 
-      _buffer = "";
+      _buffer.Clear();
     }
 
     public void WriteLine(string keyword, string text, GherkinSpecContext specContext)
     {
-      _buffer += keyword + ": " + text;
+      _buffer.Append(keyword);
+      _buffer.Append(text);
 
-      _outputHelper.WriteLine(_buffer);
+      _outputHelper.WriteLine(_buffer.ToString());
 
-      _buffer = "";
+      _buffer.Clear();
     }
 
     public void Dispose()
     {
-      if (!String.IsNullOrEmpty(_buffer))
-        _outputHelper.WriteLine(_buffer);
-
-      _buffer = "";
+      if (_buffer.Length > 0)
+      {
+        _outputHelper.WriteLine(_buffer.ToString());
+        _buffer.Clear();
+      }
     }
   }
 }

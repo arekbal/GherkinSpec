@@ -37,7 +37,7 @@ namespace GherkinSpec.Core
 
         TestContainer = testContainer;
 
-        var attr = (FeatureAttribute)TestContainer.GetType().GetCustomAttributes(typeof(FeatureAttribute), true).FirstOrDefault();
+        var attr = (IFeatureAttribute)TestContainer.GetType().GetCustomAttributes(typeof(IFeatureAttribute), true).FirstOrDefault();
 
         if (attr == null)
           throw FeatureError("Feature attribute is missing");

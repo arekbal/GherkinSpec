@@ -11,20 +11,14 @@ namespace GherkinSpec.XUnit
   {
     readonly ITestOutputHelper _output;
 
-  
-
     public XUnitGherkinSpecContext(ITestOutputHelper output)
-    {
+    {    
       _output = output;
     }
 
     protected override IFeatureOutput CreateOutput()
     {
       return new XUnitFeatureOutput(_output);
-    }
-
-    public virtual void Background()
-    {
-    }
+    } 
   }
 }

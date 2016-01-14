@@ -3,7 +3,7 @@
   <metadata>
     <id>$id$</id>
     <version>$version$</version>
-    <title>GherkinSpec.MsTest</title>
+    <title>GherkinSpec.XUnit</title>
     <authors>$author$</authors>
     <owners>$author$</owners>
     <licenseUrl>https://wiki.creativecommons.org/wiki/CC0</licenseUrl>
@@ -11,9 +11,9 @@
     <!--<iconUrl>http://ICON_URL_HERE_OR_DELETE_THIS_LINE</iconUrl>-->
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>$description$</description>
-    <releaseNotes>Preparing for XUnit support with namespace changes and some cosmetics</releaseNotes>
+    <releaseNotes>Release of GherkinSpec for XUnit</releaseNotes>
     <copyright>Copyright 2015</copyright>
-    <tags>Gherkin BDD Tests MsTest</tags>
+    <tags>Gherkin BDD Tests XUnit xUnit</tags>
     <dependencies>
       <dependency id="GherkinSpec.Core" version="2.0.0" />
     </dependencies>

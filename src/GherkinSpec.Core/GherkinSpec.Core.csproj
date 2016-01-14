@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>GherkinSpec.Core</RootNamespace>
     <AssemblyName>GherkinSpec.Core</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
   </PropertyGroup>
@@ -42,11 +42,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ExampleSets.cs" />
-    <Compile Include="Meta\FeatureAttribute.cs" />
+    <Compile Include="IGherkinSpecContextProvider.cs" />
+    <Compile Include="InternalGherkinSpecBase.cs" />
     <Compile Include="Loading\FeatureFileLoader.cs" />
     <Compile Include="Loading\FeatureHttpLoader.cs" />
     <Compile Include="Loading\FeatureLoaderSelector.cs" />
     <Compile Include="Loading\IFeatureLoader.cs" />
+    <Compile Include="Meta\IFeatureAttribute.cs" />
     <Compile Include="Meta\IScenarioAttribute.cs" />
     <Compile Include="Out\FeatureFileOutput.cs" />
     <Compile Include="Out\FeatureConsoleOutput.cs" />
@@ -54,7 +56,6 @@
     <Compile Include="GherkinSpecContext.cs" />
     <Compile Include="Helpers.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Meta\ScenarioAttribute.cs" />
     <Compile Include="Utils\Conditional.cs" />
   </ItemGroup>
   <ItemGroup>
