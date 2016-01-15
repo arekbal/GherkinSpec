@@ -1,12 +1,8 @@
 ﻿using GherkinSpec.Core.Loading;
 using GherkinSpec.Core.Meta;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace GherkinSpec.MSTest.Meta
+namespace GherkinSpec.MsTest.Meta
 {
   [AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]
   public sealed class FeatureAttribute : Attribute, IFeatureAttribute

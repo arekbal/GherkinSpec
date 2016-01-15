@@ -1,12 +1,10 @@
 ﻿
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using GherkinSpec.Core;
-using GherkinSpec.MsTest;
+
 using System.Linq;
 using GherkinSpec.Core.Loading;
-using GherkinSpec.Core.Meta;
+using GherkinSpec.MsTest;
 using GherkinSpec.MsTest.Meta;
-using GherkinSpec.MSTest.Meta;
 
 namespace GherkinSpec.Tests
 {
