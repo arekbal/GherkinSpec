@@ -4,3 +4,5 @@ F:\PROJECTS\GherkinSpec\src\GherkinSpec.Core\bin\Debug\Gherkin.dll
 F:\PROJECTS\GherkinSpec\src\GherkinSpec.Core\obj\Debug\GherkinSpec.Core.dll
 F:\PROJECTS\GherkinSpec\src\GherkinSpec.Core\obj\Debug\GherkinSpec.Core.pdb
 F:\PROJECTS\GherkinSpec\src\GherkinSpec.Core\obj\Debug\GherkinSpec.Core.csprojResolveAssemblyReference.cache
+F:\PROJECTS\GherkinSpec\src\GherkinSpec.Core\obj\Debug\GherkinSpec.Core.csproj.CoreCompileInputs.cache
+F:\PROJECTS\GherkinSpec\src\GherkinSpec.Core\obj\Debug\GherkinSpec.Core.csproj.CopyComplete

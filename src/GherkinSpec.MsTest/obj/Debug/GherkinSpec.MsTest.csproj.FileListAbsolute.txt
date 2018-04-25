@@ -7,3 +7,5 @@ F:\PROJECTS\GherkinSpec\src\GherkinSpec.MsTest\obj\Debug\GherkinSpec.MsTest.cspr
 F:\PROJECTS\GherkinSpec\src\GherkinSpec.MsTest\obj\Debug\GherkinSpec.MsTest.dll
 F:\PROJECTS\GherkinSpec\src\GherkinSpec.MsTest\obj\Debug\GherkinSpec.MsTest.pdb
 F:\PROJECTS\GherkinSpec\src\GherkinSpec.MsTest\bin\Debug\GherkinSpec.Core.pdb
+F:\PROJECTS\GherkinSpec\src\GherkinSpec.MsTest\obj\Debug\GherkinSpec.MsTest.csproj.CoreCompileInputs.cache
+F:\PROJECTS\GherkinSpec\src\GherkinSpec.MsTest\obj\Debug\GherkinSpec.MsTest.csproj.CopyComplete

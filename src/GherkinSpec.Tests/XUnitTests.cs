@@ -120,7 +120,7 @@ namespace GherkinSpec.Tests
     [Fact]
     public void All_scenarios_covered()
     {
-       //AllScenariosCovered
+      Assert.True(AllScenariosCovered);      
     }
   }
 }

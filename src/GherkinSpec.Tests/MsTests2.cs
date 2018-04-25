@@ -1,13 +1,14 @@
 ﻿
+using doix.gherkin_spec.core.Loading;
+using doix.gherkin_spec.mstest;
+using doix.gherkin_spec.mstest.Meta;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using GherkinSpec.MsTest;
 using System.Linq;
-using GherkinSpec.Core.Loading;
-using GherkinSpec.MsTest.Meta;
 
 namespace GherkinSpec.Tests
 {
-  [Feature(Loader = typeof(FeatureFileLoader), LoaderParam = "Feature2.feature" /*FileAddress= "https://raw.githubusercontent.com/arekbal/arekbal.github.io/master/Feature.feature"*/) TestClass]
+  [Feature(Loader = typeof(FeatureFileLoader), LoaderParam = "Feature2.feature" /*FileAddress= "https://raw.githubusercontent.com/arekbal/arekbal.github.io/master/Feature.feature"*/)]
+  [TestClass]
   public class MsTests2 : GherkinSpecBase
   {
     protected override void Background()
@@ -28,13 +29,13 @@ namespace GherkinSpec.Tests
       public string Name { get; set; }
     }
 
-    [Scenario TestMethod]
+    [Scenario, TestMethod]
     public void MsTests2_Buy_last_coffee()
     {
       //Feature: @hicking
       //Scenario: @billing @bicker @annoy  
       var tags = Tags.ToList();      
-      Assert.IsTrue(tags.Count == 4 && tags.All(d => 
+      Assert.IsTrue(tags.Count == 4 && tags.All(d =>
         d == "hicking" || d == "billing" || d == "bicker" || d == "annoy"));
 
       Step("Given a blog post named \"Random\" with:");
@@ -58,7 +59,7 @@ namespace GherkinSpec.Tests
       var possibleResults = ResultList;
     }
 
-    [Scenario TestMethod]
+    [Scenario, TestMethod]
     public void MsTests2_Buy_last_coffee_2()
     {
       Step("Given there are 1 coffees left in the machine");
@@ -85,7 +86,7 @@ namespace GherkinSpec.Tests
       public int left { get; set; }
     }
     
-    [Scenario TestMethod]
+    [Scenario, TestMethod]
     public void MsTests2_Eating()
     {
       foreach (var exampleSet in ExampleSets)

@@ -30,3 +30,10 @@ F:\PROJECTS\GherkinSpec\src\GherkinSpec.Tests\bin\Release\GherkinSpec.XUnit.pdb
 F:\PROJECTS\GherkinSpec\src\GherkinSpec.Tests\bin\Release\Feature2.feature
 F:\PROJECTS\GherkinSpec\src\GherkinSpec.Tests\bin\Release\nunit.framework.dll
 F:\PROJECTS\GherkinSpec\src\GherkinSpec.Tests\bin\Release\nunit.framework.xml
+F:\PROJECTS\GherkinSpec\src\GherkinSpec.Tests\bin\Release\GherkinSpec.Automation.dll
+F:\PROJECTS\GherkinSpec\src\GherkinSpec.Tests\bin\Release\WebDriver.dll
+F:\PROJECTS\GherkinSpec\src\GherkinSpec.Tests\bin\Release\GherkinSpec.Automation.pdb
+F:\PROJECTS\GherkinSpec\src\GherkinSpec.Tests\bin\Release\WebDriver.xml
+F:\PROJECTS\GherkinSpec\src\GherkinSpec.Tests\bin\Release\chromedriver.exe
+F:\PROJECTS\GherkinSpec\src\GherkinSpec.Tests\bin\Release\phantomjs.exe
+F:\PROJECTS\GherkinSpec\src\GherkinSpec.Tests\bin\Release\phantomjs-license.txt

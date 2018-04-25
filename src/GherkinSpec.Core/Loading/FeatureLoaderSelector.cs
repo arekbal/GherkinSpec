@@ -1,6 +1,6 @@
 ﻿using Gherkin.Ast;
-using GherkinSpec.Core.Meta;
-using GherkinSpec.Core.Utils;
+using doix.gherkinspec.core.Meta;
+using doix.gherkinspec.core.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using static System.String;
 
-namespace GherkinSpec.Core.Loading
+namespace doix.gherkinspec.core.Loading
 {
   static class FeatureLoaderSelector
   {

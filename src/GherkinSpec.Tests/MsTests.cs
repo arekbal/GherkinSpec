@@ -1,14 +1,17 @@
 ﻿
+using doix.gherkin_spec.core.Loading;
+using doix.gherkin_spec.mstest;
+using doix.gherkin_spec.mstest.Meta;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using System.Linq;
-using GherkinSpec.Core.Loading;
-using GherkinSpec.MsTest;
-using GherkinSpec.MsTest.Meta;
 
 namespace GherkinSpec.Tests
 {
-  [Feature(Loader = typeof(FeatureFileLoader), LoaderParam = "Feature.feature" /*FileAddress= "https://raw.githubusercontent.com/arekbal/arekbal.github.io/master/Feature.feature"*/) TestClass]
+  [Feature(
+    Loader = typeof(FeatureFileLoader), 
+    LoaderParam = "Feature.feature" /*FileAddress= "https://raw.githubusercontent.com/arekbal/arekbal.github.io/master/Feature.feature"*/)]
+  [TestClass]
   public class MsTests : GherkinSpecBase
   {
     protected override void Background()
@@ -29,16 +32,24 @@ namespace GherkinSpec.Tests
       public string Name { get; set; }
     }
 
-    [Scenario TestMethod]
+    [Scenario, TestMethod]
+    public void Check_if_first_article_contains_G()
+    {
+      Given("I go to 'wp.pl'");
+
+      Given("I open first link from 'text_topnews'");
+    }
+
+    [Scenario, TestMethod]
     public void Buy_last_coffee()
     {
       //Feature: @hicking
       //Scenario: @billing @bicker @annoy  
-      var tags = Tags.ToList();      
-      Assert.IsTrue(tags.Count == 4 && tags.All(d => 
+      var tags = Tags.ToList();
+      Assert.IsTrue(tags.Count == 4 && tags.All(d =>
         d == "hicking" || d == "billing" || d == "bicker" || d == "annoy"));
 
-      Step("Given", "a blog post named \"Random\" with:");
+      Step("Given a blog post named \"Random\" with:");
 
       var blogPostContent = ArgumentString;
 
@@ -57,9 +68,11 @@ namespace GherkinSpec.Tests
       Step("Then the greeting service response will contain one of the following messages:");
 
       var possibleResults = ResultList;
+
+      TestContext.AddResultFile("new1.pdf");
     }
 
-    [Scenario TestMethod]
+    [Scenario, TestMethod]
     public void Buy_last_coffee_2()
     {
       Step("Given there are 1 coffees left in the machine");
@@ -85,8 +98,8 @@ namespace GherkinSpec.Tests
       public int eat { get; set; }
       public int left { get; set; }
     }
-    
-    [Scenario TestMethod]
+
+    [Scenario, TestMethod]
     public void Eating()
     {
       foreach (var exampleSet in ExampleSets)

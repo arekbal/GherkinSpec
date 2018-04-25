@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.23107.0
+# Visual Studio 15
+VisualStudioVersion = 15.0.27428.2037
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GherkinSpec.Tests", "GherkinSpec.Tests\GherkinSpec.Tests.csproj", "{0E704688-EE46-4509-85E4-F8539E928933}"
 EndProject
@@ -10,6 +10,14 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GherkinSpec.MsTest", "GherkinSpec.MsTest\GherkinSpec.MsTest.csproj", "{E2F0EA86-E4D5-4EAF-9832-EC14049E7DA8}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GherkinSpec.XUnit", "GherkinSpec.XUnit\GherkinSpec.XUnit.csproj", "{95D95C5E-E0F7-4A0B-9B68-EDF631D6A54A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GherkinSpec.Automation", "GherkinSpec.Automation\GherkinSpec.Automation.csproj", "{AEF89663-12E9-40CD-8EAD-04125766932A}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "doix.gherkin_spec.core", "doix.gherkin_spec.core\doix.gherkin_spec.core.csproj", "{35A48454-357F-469A-98EB-52945D85D56A}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "doix.gherkin_spec.mstest", "doix.gherkin_spec.mstest\doix.gherkin_spec.mstest.csproj", "{3D7EBE7A-AAC0-4F32-BC92-67B3BE3012AD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "doix.gherkin_spec.nunit", "doix.gherkin_spec.nunit\doix.gherkin_spec.nunit.csproj", "{E013C936-A770-4F36-9175-04565A55E473}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,8 +41,27 @@ Global
 		{95D95C5E-E0F7-4A0B-9B68-EDF631D6A54A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{95D95C5E-E0F7-4A0B-9B68-EDF631D6A54A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{95D95C5E-E0F7-4A0B-9B68-EDF631D6A54A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AEF89663-12E9-40CD-8EAD-04125766932A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AEF89663-12E9-40CD-8EAD-04125766932A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AEF89663-12E9-40CD-8EAD-04125766932A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AEF89663-12E9-40CD-8EAD-04125766932A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{35A48454-357F-469A-98EB-52945D85D56A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{35A48454-357F-469A-98EB-52945D85D56A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{35A48454-357F-469A-98EB-52945D85D56A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{35A48454-357F-469A-98EB-52945D85D56A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3D7EBE7A-AAC0-4F32-BC92-67B3BE3012AD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3D7EBE7A-AAC0-4F32-BC92-67B3BE3012AD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3D7EBE7A-AAC0-4F32-BC92-67B3BE3012AD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3D7EBE7A-AAC0-4F32-BC92-67B3BE3012AD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E013C936-A770-4F36-9175-04565A55E473}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E013C936-A770-4F36-9175-04565A55E473}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E013C936-A770-4F36-9175-04565A55E473}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E013C936-A770-4F36-9175-04565A55E473}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {286EEF47-707B-45C0-A6A7-C304EC8026C7}
 	EndGlobalSection
 EndGlobal
