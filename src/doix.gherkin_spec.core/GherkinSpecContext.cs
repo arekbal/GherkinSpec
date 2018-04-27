@@ -280,10 +280,8 @@ namespace doix.gherkin_spec.core
     {
       var fullText = $"{CurrStep.Keyword.Trim()} {CurrStep.Text}";
 
-      if (CurrScenario is ScenarioOutline)
+      if (CurrScenario is ScenarioOutline outline)
       {
-        var outline = (ScenarioOutline)CurrScenario;
-
         var exampleRows = outline.Examples.SelectMany(ex => ex.TableBody);
 
         var stepModelRow = exampleRows.ElementAt(_scenarioStep / CurrScenario.Steps.Count());
