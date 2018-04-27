@@ -1,5 +1,5 @@
 ﻿
-$ForegroundColor = "Orange"
+$ForegroundColor = "Yellow"
 
 $PROJECT_DIR = $env:PROJECT_DIR
 $BUILD_LOGGER = $env:BUILD_LOGGER
@@ -39,3 +39,10 @@ Write-Host 'DONE' -ForegroundColor $ForegroundColor
 Write ""
 
 [Console]::ResetColor()
+
+trap [System.Exception]
+{
+    Write-Error 'ERROR' -ForegroundColor 'Red'
+	Write-Error $_.Exception	
+    exit 
+}
