@@ -27,7 +27,7 @@ Write-Host $ExecutionContext.InvokeCommand.ExpandString('PROJECT_DIR = $PROJECT_
 
 Exec-Cmd 'GIT VERSION INSTALL' 'choco install GitVersion.Portable'
 
-Exec-Cmd 'GIT VERSION' 'GitVersion "$PROJECT_DIR" -updateassemblyinfo'
+Exec-Cmd 'GIT VERSION' 'gitversion "$PROJECT_DIR" -updateassemblyinfo'
 
 Exec-Cmd 'CLEAN' 'dotnet clean "$PROJECT_DIR\src\GherkinSpec.sln" -v m'
 
