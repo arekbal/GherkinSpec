@@ -1,1 +1,0 @@
-[System.Diagnostics.Process]::Start("https://github.com/arekbal/GherkinSpec")

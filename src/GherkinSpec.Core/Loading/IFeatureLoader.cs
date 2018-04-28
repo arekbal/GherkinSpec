@@ -10,6 +10,6 @@ namespace GherkinSpec.Core.Loading
 {
   public interface IFeatureLoader
   {
-    TextReader ReadFeatureContent(string virtualPath);
+    TextReader ReadFeatureContent(string virtualPath, object testContainer, string testDirectory);
   }
 }

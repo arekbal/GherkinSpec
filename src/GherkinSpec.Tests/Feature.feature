@@ -35,6 +35,11 @@ Feature: Serve coffee
       |How has your day been?|
       |Come right on in!|
 
+  @auto
+  Scenario: Check if first article contains G
+    Given I go to 'wp.pl'
+	Given I open first link from 'text_topnews'
+
   Scenario: Buy last coffee 2
     Given there are 1 coffees left in the machine
     And I have deposited 1$

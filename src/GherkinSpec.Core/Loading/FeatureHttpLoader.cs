@@ -10,7 +10,7 @@ namespace GherkinSpec.Core.Loading
 {
   public class FeatureHttpLoader : IFeatureLoader
   {
-    public TextReader ReadFeatureContent(string address)
+    public TextReader ReadFeatureContent(string address, object testContainer, string testDirectory)
     {
       using (var webClient = new WebClient())
         return new StreamReader(webClient.OpenRead(address));

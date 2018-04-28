@@ -6,7 +6,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="gherkin" Version="5.0.0" />
+    <PackageReference Include="NUnit" Version="3.10.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\GherkinSpec.Core\GherkinSpec.Core.csproj" />
   </ItemGroup>
 
 </Project>

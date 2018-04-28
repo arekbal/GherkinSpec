@@ -10,6 +10,7 @@ namespace GherkinSpec.Core.Loading
 {
   public class FeatureFileLoader : IFeatureLoader
   {
-    public TextReader ReadFeatureContent(string filePath) => new StreamReader(filePath);
+    public TextReader ReadFeatureContent(string filePath, object testContainer, string testDirectory) 
+      => new StreamReader(Path.Combine(testDirectory, filePath));
   }
 }

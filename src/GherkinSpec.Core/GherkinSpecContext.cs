@@ -15,6 +15,8 @@ namespace GherkinSpec.Core
   {
     public object TestContainer { get; private set; }
 
+    public string TestDirectory { get; private set; }
+
     public Feature CurrFeature { get; private set; }
 
     public ScenarioDefinition CurrScenario { get; private set; }
@@ -29,7 +31,7 @@ namespace GherkinSpec.Core
 
     IFeatureOutput _output;
   
-    public void InitFeature(object testContainer)
+    public void InitFeature(object testContainer, string testDirectory=null)
     { 
       if (!_featureInitialized)
       {
@@ -37,12 +39,18 @@ namespace GherkinSpec.Core
 
         TestContainer = testContainer;
 
-        var attr = (IFeatureAttribute)TestContainer.GetType().GetCustomAttributes(typeof(IFeatureAttribute), true).FirstOrDefault();
+        TestDirectory = testDirectory ?? Environment.CurrentDirectory;
+
+        var attr = TestContainer
+          .GetType()
+          .GetCustomAttributes(typeof(IFeatureAttribute), true)
+          .Cast<IFeatureAttribute>()
+          .FirstOrDefault();
 
         if (attr == null)
           throw FeatureError("Feature attribute is missing");
 
-        var bFeature = FeatureLoaderSelector.Select(attr);
+        var bFeature = FeatureLoaderSelector.Select(attr, TestContainer, TestDirectory);
         if (bFeature.NoValue)
           throw FeatureError("Coudn't load Feature");
 
@@ -56,12 +64,13 @@ namespace GherkinSpec.Core
 
       _output.WriteLine("", this);
 
-      if (CurrFeature.Background != null)
+      var background = CurrFeature.Children.OfType<Background>().FirstOrDefault();
+      if (background != null)
       {
-        _output.WriteLine(CurrFeature.Background.Keyword.Trim(), ": " + CurrFeature.Background.Name, this);
+        _output.WriteLine(background.Keyword.Trim(), ": " + background.Name, this);
 
-        if (!IsNullOrWhiteSpace(CurrFeature.Background.Description))
-          _output.WriteLine(CurrFeature.Background.Description, this);
+        if (!IsNullOrWhiteSpace(background.Description))
+          _output.WriteLine(background.Description, this);
       }
 
       _backgroundStep = 0;
@@ -73,8 +82,8 @@ namespace GherkinSpec.Core
     {
       get
       {
-        if(CurrScenario is ScenarioOutline)
-          return new ExampleSets(((ScenarioOutline)CurrScenario).Examples);
+        if(CurrScenario is ScenarioOutline outline)
+          return new ExampleSets(outline.Examples);
 
         throw FeatureError("Current scenario isn't an outline");
       }
@@ -88,10 +97,11 @@ namespace GherkinSpec.Core
       
       _scenarioStep = 0;
 
-      var attr = (IScenarioAttribute)TestContainer
+      var attr = TestContainer
         .GetType()
         .GetMethod(methodName)
         .GetCustomAttributes(typeof(IScenarioAttribute), true)
+        .Cast<IScenarioAttribute>()
         .FirstOrDefault();
 
       if (attr == null)
@@ -99,7 +109,7 @@ namespace GherkinSpec.Core
 
       var scenarioName = attr.ScenarioName ?? methodName.Replace('_', ' ');
 
-      CurrScenario = CurrFeature.ScenarioDefinitions.FirstOrDefault(d => d.Name == scenarioName);
+      CurrScenario = CurrFeature.Children.FirstOrDefault(d => d.Name == scenarioName);
 
       if (CurrScenario == null)
         throw FeatureError($"There is no scenario under name: '{scenarioName}' defined in .feature file");
@@ -125,16 +135,15 @@ namespace GherkinSpec.Core
       
       if (testPassed)
       {
-        if (CurrFeature.Background.Steps.Count() != _backgroundStep)
+        var background = CurrFeature.GetBackgroundOrNull();
+        if (background != null && background.Steps.Count() != _backgroundStep)
         {
           ResetScenario();
           throw FeatureError("Not enough or too many steps");
         }
 
-        if (CurrScenario is ScenarioOutline)
+        if (CurrScenario is ScenarioOutline outline)
         {
-          var outline = (ScenarioOutline)CurrScenario;
-
           WithExamples();
 
           if (outline.Steps.Count() * outline.Examples.Sum(e => e.TableBody.Count()) != _scenarioStep)
@@ -174,20 +183,26 @@ namespace GherkinSpec.Core
           .Where(d=>IsNotNull(d.Attrib))
           .Select(d => d.Attrib.ScenarioName ?? d.Method.Name.Replace('_', ' '));
 
-        return CurrFeature.ScenarioDefinitions.All(d=> coveredScenarioNames.Contains(d.Name));
+        return CurrFeature.Children.Where(x=> !(x is Background)).All(d=> coveredScenarioNames.Contains(d.Name));
       }
     }
 
     protected virtual IFeatureOutput CreateOutput() => new FeatureConsoleOutput();
 
-    Gherkin.Ast.Step GetCurrStep()
+    Step GetCurrStep()
     {
       if (CurrScenario == null)
-        return CurrFeature.Background.Steps.ElementAt(_backgroundStep);
-
-      if (CurrScenario is ScenarioOutline)
       {
-        var outline = (ScenarioOutline)CurrScenario;
+        var background = CurrFeature.GetBackgroundOrNull();
+
+        if (background != null)
+          return background.Steps.ElementAt(_backgroundStep);
+
+        return null;
+      }
+
+      if (CurrScenario is ScenarioOutline outline)
+      {
         var exampleSetsCount = outline.Examples.Sum(d => d.TableBody.Count());
 
         return CurrScenario.Steps.ElementAt(_scenarioStep % CurrScenario.Steps.Count());
@@ -198,7 +213,7 @@ namespace GherkinSpec.Core
 
     public IEnumerable<string> Tags => 
       CurrScenario != null ?
-        CurrFeature.Tags.Concat(CurrScenario.Tags).Select(t => t.Name.Substring(1)) :
+        CurrFeature.Tags.Concat(CurrScenario.GetTags()).Select(t => t.Name.Substring(1)) :
         CurrFeature.Tags.Select(t => t.Name.Substring(1));
 
     public void Step(string textStartingWithKeywordAndPlaceholders)
@@ -265,10 +280,8 @@ namespace GherkinSpec.Core
     {
       var fullText = $"{CurrStep.Keyword.Trim()} {CurrStep.Text}";
 
-      if (CurrScenario is ScenarioOutline)
+      if (CurrScenario is ScenarioOutline outline)
       {
-        var outline = (ScenarioOutline)CurrScenario;
-
         var exampleRows = outline.Examples.SelectMany(ex => ex.TableBody);
 
         var stepModelRow = exampleRows.ElementAt(_scenarioStep / CurrScenario.Steps.Count());

@@ -1,18 +1,14 @@
 ﻿using GherkinSpec.Core.Loading;
-using GherkinSpec.XUnit;
-using GherkinSpec.XUnit.Meta;
+using GherkinSpec.xUnit;
 using System.Linq;
 using Xunit;
 using Xunit.Abstractions;
-
 
 namespace GherkinSpec.Tests
 {
   [Feature(Loader = typeof(FeatureFileLoader), LoaderParam = "Feature.feature" /*FileAddress= "https://raw.githubusercontent.com/arekbal/arekbal.github.io/master/Feature.feature"*/)]
   public class XUnitTests : GherkinSpecBase
   {
-
-
     public XUnitTests(ITestOutputHelper outputHelper)
       :base(outputHelper)
     {
@@ -77,6 +73,14 @@ namespace GherkinSpec.Tests
     }
 
     [Scenario]
+    public void Check_if_first_article_contains_G()
+    {
+      Given("I go to 'wp.pl'");
+
+      Given("I open first link from 'text_topnews'");
+    }
+
+    [Scenario]
     public void Buy_last_coffee_2()
     {
       Step("Given there are 1 coffees left in the machine");
@@ -120,7 +124,7 @@ namespace GherkinSpec.Tests
     [Fact]
     public void All_scenarios_covered()
     {
-       //AllScenariosCovered
+      Assert.True(AllScenariosCovered);      
     }
   }
 }

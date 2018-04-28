@@ -12,15 +12,19 @@ namespace GherkinSpec.Core.Loading
 {
   static class FeatureLoaderSelector
   {
-    public static Conditional<Feature> Select(IFeatureAttribute attr)
+    public static Conditional<Feature> Select(IFeatureAttribute attr, object testContainer, string testDirectory)
     {
-      var parser = new Gherkin.Parser();    
-
       if (attr.Loader.GetInterfaces().Any(t=>t == typeof(IFeatureLoader)))
       {
         var loader = (IFeatureLoader)Activator.CreateInstance(attr.Loader);
-        using (var reader = loader.ReadFeatureContent(attr.LoaderParam))
-          return Conditional.From(parser.Parse(reader));
+        using (var reader = loader.ReadFeatureContent(attr.LoaderParam, testContainer, testDirectory))
+        {
+          var parser = new Gherkin.Parser();
+          var gherkinDoc = parser.Parse(reader);
+          //TODO: gherkinDoc.Comments;
+          return Conditional.From(gherkinDoc.Feature);
+        }
+          
       }
 
       return Conditional<Feature>.Empty;
