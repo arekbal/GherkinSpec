@@ -1,6 +1,18 @@
 ﻿
 $ForegroundColor = "Yellow"
 
+function Exec-Cmd 
+{
+  param([String]$title, [String]$cmd )
+  
+  Write ""
+  Write-Host $title -ForegroundColor $ForegroundColor
+  Write-Host $cmd -ForegroundColor $ForegroundColor
+  Write ""
+  iex $cmd
+}
+
+
 $PROJECT_DIR = $env:PROJECT_DIR
 $BUILD_LOGGER = $env:BUILD_LOGGER
 
@@ -13,26 +25,15 @@ Write ""
 
 Write-Host $ExecutionContext.InvokeCommand.ExpandString('PROJECT_DIR = $PROJECT_DIR') -ForegroundColor $ForegroundColor
 
-Write ""
-$clean = 'dotnet clean "$PROJECT_DIR\src\GherkinSpec.sln" -v m'
-Write-Host 'CLEAN' -ForegroundColor $ForegroundColor
-Write-Host $clean -ForegroundColor $ForegroundColor
-Write ""
-iex $clean
+Exec-Cmd 'GIT VERSION INSTALL' 'choco install GitVersion.Portable'
 
-Write ""
-$build = 'dotnet build "$PROJECT_DIR\src\GherkinSpec.sln" -v m'
-Write-Host 'BUILD' -ForegroundColor $ForegroundColor
-Write-Host $build -ForegroundColor $ForegroundColor
-Write ""
-iex $build
+Exec-Cmd 'GIT VERSION' 'GitVersion "$PROJECT_DIR" -updateassemblyinfo'
 
-Write ""
-$build = 'dotnet test "$PROJECT_DIR\src\GherkinSpec.sln" -v m'
-Write-Host 'TESTS' -ForegroundColor $ForegroundColor
-Write-Host $build -ForegroundColor $ForegroundColor
-Write ""
-iex $build
+Exec-Cmd 'CLEAN' 'dotnet clean "$PROJECT_DIR\src\GherkinSpec.sln" -v m'
+
+Exec-Cmd 'BUILD' 'dotnet build "$PROJECT_DIR\src\GherkinSpec.sln" -v m'
+
+Exec-Cmd 'TESTS' 'dotnet test "$PROJECT_DIR\src\GherkinSpec.sln" -v m'
 
 Write ""
 Write-Host 'DONE' -ForegroundColor $ForegroundColor

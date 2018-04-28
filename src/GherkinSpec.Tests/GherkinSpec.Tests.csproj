@@ -1,0 +1,51 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Feature.feature" />
+    <None Remove="Feature2.feature" />
+    <None Remove="funkcja.feature" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <DotNetCliToolReference Include="Microsoft.DotNet.Watcher.Tools" Version="2.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Feature.feature">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+    </Content>
+    <Content Include="Feature2.feature">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+    </Content>
+    <Content Include="funkcja.feature">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.6.0" />
+    <PackageReference Include="MSTest.TestAdapter" Version="1.2.1" />
+    <PackageReference Include="MSTest.TestFramework" Version="1.2.1" />
+    <PackageReference Include="NUnit" Version="3.10.1" />
+    <PackageReference Include="NUnit3TestAdapter" Version="3.10.0" />
+    <PackageReference Include="xunit" Version="2.3.1" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.3.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\GherkinSpec.Core\GherkinSpec.Core.csproj" />
+    <ProjectReference Include="..\GherkinSpec.MSTest\GherkinSpec.MSTest.csproj" />
+    <ProjectReference Include="..\GherkinSpec.NUnit\GherkinSpec.NUnit.csproj" />
+    <ProjectReference Include="..\GherkinSpec.xUnit\GherkinSpec.xUnit.csproj" />
+  </ItemGroup>
+
+</Project>

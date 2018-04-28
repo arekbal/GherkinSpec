@@ -1,9 +1,0 @@
-{
-  "commands": {
-    "watch": {
-      "fileName": "powershell.exe",
-      "workingDirectory": ".",
-      "arguments": "-ExecutionPolicy Bypass -NonInteractive -File watch.ps1"
-    }
-  }
-}
