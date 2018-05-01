@@ -20,8 +20,8 @@ Exec-Cmd 'BUILD' 'dotnet build "$PROJECT_DIR\src\GherkinSpec.sln" -c $BUILD_CONF
 
 Exec-Cmd 'TESTS' 'dotnet vstest "$PROJECT_DIR\src\GherkinSpec.Tests\bin\$BUILD_CONFIGURATION\netcoreapp2.0\GherkinSpec.Tests.dll" /TestAdapterPath:"$PROJECT_DIR\src\GherkinSpec.Tests\bin\$BUILD_CONFIGURATION\netcoreapp2.0" --Parallel'
 
-Exec-Cmd 'GET_GIT_VERSION' 'gitversion -showvariable MajorMinorPatch' -ignore $true
-$VERSION = iex 'gitversion -showvariable MajorMinorPatch'
+Exec-Cmd 'GET_GIT_VERSION' 'gitversion "$PROJECT_DIR" -showvariable MajorMinorPatch' -ignore $true
+$VERSION = iex 'gitversion "$PROJECT_DIR" -showvariable MajorMinorPatch'
 Print-Var 'VERSION'
 
 function Nuget-PP
@@ -34,8 +34,8 @@ function Nuget-PP
   Exec-Cmd "PUSH $proj" $cmd
 } 
 
-Exec-Cmd 'GET_GIT_BRANCH' 'gitversion -showvariable BranchName' -ignore $true
-$BRANCH = iex 'gitversion -showvariable BranchName'
+Exec-Cmd 'GET_GIT_BRANCH' 'gitversion "$PROJECT_DIR" -showvariable BranchName' -ignore $true
+$BRANCH = iex 'gitversion "$PROJECT_DIR" -showvariable BranchName'
 Print-Var 'BRANCH'
 
 if ($BRANCH -eq 'master')
