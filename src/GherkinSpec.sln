@@ -5,13 +5,15 @@ VisualStudioVersion = 15.0.27428.2037
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GherkinSpec.Core", "GherkinSpec.Core\GherkinSpec.Core.csproj", "{337C2AFC-23F2-4128-99D5-B7DEBE19F39C}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GherkinSpec.MSTest", "GherkinSpec.MSTest\GherkinSpec.MSTest.csproj", "{97BC6686-A1EC-4C93-A300-874983CDFFBE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GherkinSpec.MsTest", "GherkinSpec.MsTest\GherkinSpec.MsTest.csproj", "{97BC6686-A1EC-4C93-A300-874983CDFFBE}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GherkinSpec.NUnit", "GherkinSpec.NUnit\GherkinSpec.NUnit.csproj", "{A0187CEC-2234-4C54-A19A-7B9705D0DD8D}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GherkinSpec.xUnit", "GherkinSpec.xUnit\GherkinSpec.xUnit.csproj", "{946A111E-F9F4-4772-A34A-85F0BCDAAD46}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GherkinSpec.XUnit", "GherkinSpec.XUnit\GherkinSpec.XUnit.csproj", "{946A111E-F9F4-4772-A34A-85F0BCDAAD46}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GherkinSpec.Tests", "GherkinSpec.Tests\GherkinSpec.Tests.csproj", "{B97143C8-195F-4C51-9634-129D679D588F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GherkinSpec.Demo", "GherkinSpec.Demo\GherkinSpec.Demo.csproj", "{CD47881C-F010-40C4-862E-3EAFBB885476}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{B97143C8-195F-4C51-9634-129D679D588F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B97143C8-195F-4C51-9634-129D679D588F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B97143C8-195F-4C51-9634-129D679D588F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CD47881C-F010-40C4-862E-3EAFBB885476}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CD47881C-F010-40C4-862E-3EAFBB885476}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CD47881C-F010-40C4-862E-3EAFBB885476}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CD47881C-F010-40C4-862E-3EAFBB885476}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

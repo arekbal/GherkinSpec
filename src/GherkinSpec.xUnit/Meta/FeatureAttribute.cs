@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Xunit.Sdk;
 
-namespace GherkinSpec.xUnit
+namespace GherkinSpec.XUnit
 {
   [AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]
   public sealed class FeatureAttribute : BeforeAfterTestAttribute, IFeatureAttribute

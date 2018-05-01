@@ -45,9 +45,9 @@
 
   <ItemGroup>
     <ProjectReference Include="..\GherkinSpec.Core\GherkinSpec.Core.csproj" />
-    <ProjectReference Include="..\GherkinSpec.MSTest\GherkinSpec.MSTest.csproj" />
+    <ProjectReference Include="..\GherkinSpec.MsTest\GherkinSpec.MsTest.csproj" />
     <ProjectReference Include="..\GherkinSpec.NUnit\GherkinSpec.NUnit.csproj" />
-    <ProjectReference Include="..\GherkinSpec.xUnit\GherkinSpec.xUnit.csproj" />
+    <ProjectReference Include="..\GherkinSpec.XUnit\GherkinSpec.XUnit.csproj" />
   </ItemGroup>
 
 </Project>

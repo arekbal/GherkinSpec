@@ -3,7 +3,7 @@ using System;
 using GherkinSpec.Core.Out;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace GherkinSpec.MSTest
+namespace GherkinSpec.MsTest
 {
   [TestClass]
   public class GherkinSpecBase : InternalGherkinSpecBase

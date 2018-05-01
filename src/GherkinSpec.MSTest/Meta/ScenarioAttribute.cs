@@ -1,7 +1,7 @@
 ﻿using GherkinSpec.Core.Meta;
 using System;
 
-namespace GherkinSpec.MSTest.Meta
+namespace GherkinSpec.MsTest.Meta
 {
   [AttributeUsage(AttributeTargets.Method, AllowMultiple = false)]
   public sealed class ScenarioAttribute : Attribute, IScenarioAttribute

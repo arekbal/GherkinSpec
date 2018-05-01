@@ -3,10 +3,16 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
 	<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+	<RepositoryUrl>https://github.com/arekbal/GherkinSpec.git</RepositoryUrl>
+	<RepositoryType>git</RepositoryType>
+	<PackageProjectUrl>https://github.com/arekbal/GherkinSpec</PackageProjectUrl>
+	<PackageTags>mstest gherkin spec unit test TDD BDD</PackageTags>
+	<Authors>Arek Bal</Authors>
+	<PackageId>GherkinSpec.MsTest</PackageId>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="MSTest.TestFramework" Version="1.2.1" />
+    <PackageReference Include="MSTest.TestFramework" Version="1.2.0" />
   </ItemGroup>
 
   <ItemGroup>

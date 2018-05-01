@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using Xunit;
 using Xunit.Sdk;
 
-namespace GherkinSpec.xUnit
+namespace GherkinSpec.XUnit
 {
   [AttributeUsage(AttributeTargets.Method, AllowMultiple = false)]
   public class ScenarioAttribute : FactAttribute, IScenarioAttribute

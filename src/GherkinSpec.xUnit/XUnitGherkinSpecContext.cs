@@ -5,7 +5,7 @@ using System.Threading;
 using GherkinSpec.Core.Out;
 using GherkinSpec.Core;
 
-namespace GherkinSpec.xUnit
+namespace GherkinSpec.XUnit
 {
   public class XUnitGherkinSpecContext : GherkinSpecContext
   {

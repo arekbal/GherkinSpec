@@ -1,49 +1,16 @@
 ﻿
-$ForegroundColor = "Yellow"
-
-function Exec-Cmd 
-{
-  param([String]$title, [String]$cmd )
-  
-  Write ""
-  Write-Host $title -ForegroundColor $ForegroundColor
-  Write-Host $cmd -ForegroundColor $ForegroundColor
-  Write ""
-  iex $cmd
-}
-
-
-$PROJECT_DIR = $env:PROJECT_DIR
-$BUILD_LOGGER = $env:BUILD_LOGGER
-
-if (-not $PROJECT_DIR) 
-{ 
-  $PROJECT_DIR = $PSScriptRoot 
-}
-
-Write ""
-
-Write-Host $ExecutionContext.InvokeCommand.ExpandString('PROJECT_DIR = $PROJECT_DIR') -ForegroundColor $ForegroundColor
+. .\scripts\_include.ps1
 
 Exec-Cmd 'GIT VERSION INSTALL' 'choco install GitVersion.Portable'
 
-Exec-Cmd 'GIT VERSION' 'gitversion "$PROJECT_DIR" -updateassemblyinfo'
+Exec-Cmd 'GIT VERSION' 'GitVersion "$PROJECT_DIR" -updateassemblyinfo'
 
 Exec-Cmd 'CLEAN' 'dotnet clean "$PROJECT_DIR\src\GherkinSpec.sln" -v m'
 
-Exec-Cmd 'BUILD' 'dotnet build "$PROJECT_DIR\src\GherkinSpec.sln" -v m'
+Exec-Cmd 'BUILD' 'dotnet build "$PROJECT_DIR\src\GherkinSpec.sln" -c $BUILD_CONFIGURATION -v m'
 
-Exec-Cmd 'TESTS' 'dotnet test "$PROJECT_DIR\src\GherkinSpec.sln" -v m'
+#Exec-Cmd 'TESTS' 'dotnet test "$PROJECT_DIR\src\GherkinSpec.sln" -c $BUILD_CONFIGURATION -v m' #This crap returns 1 because of being unable to understand NUnit tests even though it uses test adapter
 
-Write ""
-Write-Host 'DONE' -ForegroundColor $ForegroundColor
-Write ""
+Exec-Cmd 'TESTS' 'dotnet vstest "$PROJECT_DIR\src\GherkinSpec.Tests\bin\$BUILD_CONFIGURATION\netcoreapp2.0\GherkinSpec.Tests.dll" /TestAdapterPath:"$PROJECT_DIR\src\GherkinSpec.Tests\bin\$BUILD_CONFIGURATION\netcoreapp2.0" --Parallel'
 
-[Console]::ResetColor()
-
-trap [System.Exception]
-{
-    Write-Error 'ERROR' -ForegroundColor 'Red'
-	Write-Error $_.Exception	
-    exit 
-}
+Print 'DONE'

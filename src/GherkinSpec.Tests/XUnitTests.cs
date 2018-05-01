@@ -1,5 +1,5 @@
 ﻿using GherkinSpec.Core.Loading;
-using GherkinSpec.xUnit;
+using GherkinSpec.XUnit;
 using System.Linq;
 using Xunit;
 using Xunit.Abstractions;

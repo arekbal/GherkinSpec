@@ -3,6 +3,12 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
 	<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+	<GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+	<PackageTags>gherkin spec unit test TDD BDD</PackageTags>
+	<RepositoryUrl>https://github.com/arekbal/GherkinSpec.git</RepositoryUrl>
+	<RepositoryType>git</RepositoryType>
+	<PackageProjectUrl>https://github.com/arekbal/GherkinSpec</PackageProjectUrl>
+	<Authors>Arek Bal</Authors>
   </PropertyGroup>
 
   <ItemGroup>

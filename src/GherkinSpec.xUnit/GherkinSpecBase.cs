@@ -2,7 +2,7 @@
 using System.Threading;
 using GherkinSpec.Core;
 
-namespace GherkinSpec.xUnit
+namespace GherkinSpec.XUnit
 {
   public class GherkinSpecBase : InternalGherkinSpecBase, IXUnitGherkinSpecContextProvider
   {

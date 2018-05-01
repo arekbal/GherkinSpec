@@ -2,7 +2,7 @@
 using GherkinSpec.Core.Meta;
 using System;
 
-namespace GherkinSpec.MSTest.Meta
+namespace GherkinSpec.MsTest.Meta
 {
   [AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]
   public sealed class FeatureAttribute : Attribute, IFeatureAttribute

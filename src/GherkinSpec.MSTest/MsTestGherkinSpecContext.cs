@@ -2,7 +2,7 @@
 using System;
 using GherkinSpec.Core.Out;
 
-namespace GherkinSpec.MSTest
+namespace GherkinSpec.MsTest
 {
   public class MsTestGherkinSpecContext : GherkinSpecContext
   {

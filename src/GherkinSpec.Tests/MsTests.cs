@@ -1,7 +1,7 @@
 ﻿
 using GherkinSpec.Core.Loading;
-using GherkinSpec.MSTest;
-using GherkinSpec.MSTest.Meta;
+using GherkinSpec.MsTest;
+using GherkinSpec.MsTest.Meta;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using System.Linq;

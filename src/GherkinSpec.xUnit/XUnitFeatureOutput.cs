@@ -3,7 +3,7 @@ using Xunit.Abstractions;
 using GherkinSpec.Core;
 using GherkinSpec.Core.Out;
 
-namespace GherkinSpec.xUnit
+namespace GherkinSpec.XUnit
 {
   class XUnitFeatureOutput : IFeatureOutput
   {
