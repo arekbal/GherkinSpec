@@ -28,10 +28,18 @@ function Nuget-PP
 {
   param([String]$proj)
   
-  Exec-Cmd "PACK $proj" 'dotnet pack "$PROJECT_DIR\src\$proj" --no-dependencies /p:PackageVersion=$VERSION -c $BUILD_CONFIGURATION --no-build -v m' 
-  $cmd = 'dotnet nuget push "$PROJECT_DIR\src\$proj\bin\$BUILD_CONFIGURATION\$proj.$VERSION.nupkg" -s "$NUGET_SERVER"'
-  if($NUGET_APIKEY) { $cmd = $cmd + " -k $NUGET_APIKEY" }
-  Exec-Cmd "PUSH $proj" $cmd
+  Exec-Cmd 'GET_LATEST_VERSION' "nuget list $proj | select -last 1" -ignore $true
+  $LATEST_VERSION = iex 'nuget list $proj' | select -last 1
+  $LATEST_VERSION = $LATEST_VERSION.Substring($proj.Length + 1) 
+  Print-Var 'LATEST_VERSION'
+  
+  if ([System.Version]::Parse($VERSION).CompareTo([System.Version]::Parse($LATEST_VERSION)) -gt 0)
+  {  
+    Exec-Cmd "PACK $proj" 'dotnet pack "$PROJECT_DIR\src\$proj" --no-dependencies /p:PackageVersion=$VERSION -c $BUILD_CONFIGURATION --no-build -v m' 
+    $cmd = 'dotnet nuget push "$PROJECT_DIR\src\$proj\bin\$BUILD_CONFIGURATION\$proj.$VERSION.nupkg" -s "$NUGET_SERVER"'
+    if($NUGET_APIKEY) { $cmd = $cmd + " -k $NUGET_APIKEY" }
+    Exec-Cmd "PUSH $proj" $cmd
+  }
 } 
 
 Exec-Cmd 'GET_GIT_BRANCH' 'gitversion "$PROJECT_DIR" -showvariable BranchName' -ignore $true
