@@ -1,5 +1,7 @@
 ﻿
-. .\scripts\_include.ps1
+$PROJECT_DIR = if ($env:PROJECT_DIR) { $env:PROJECT_DIR } else { $ExecutionContext.SessionState.Path.GetUnresolvedProviderPathFromPSPath('.\') }
+
+. $PROJECT_DIR\scripts\_include.ps1
 
 Exec-Cmd 'GIT VERSION INSTALL' 'choco install GitVersion.Portable'
 

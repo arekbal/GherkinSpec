@@ -1,5 +1,6 @@
 ﻿
-. .\scripts\_include.ps1
+$PROJECT_DIR = if ($env:PROJECT_DIR) { $env:PROJECT_DIR } else { $ExecutionContext.SessionState.Path.GetUnresolvedProviderPathFromPSPath('.\') }
+. $PROJECT_DIR\scripts\_include.ps1
 
 $NUGET_SERVER = if ($env:NUGET_SERVER) { $env:NUGET_SERVER } else { 'https://api.nuget.org/v3/index.json' } # 
 $NUGET_APIKEY = $env:NUGET_APIKEY
