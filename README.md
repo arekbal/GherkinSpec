@@ -2,13 +2,11 @@
 Gherkin .feature files specification processor for .net
 
 https://www.nuget.org/packages/GherkinSpec.Core
-
+https://www.nuget.org/packages/GherkinSpec.NUnit
 https://www.nuget.org/packages/GherkinSpec.MsTest
-
 https://www.nuget.org/packages/GherkinSpec.XUnit
 
-XUnitTests/MsTests files are an example "Spec Files" in itself.
-In most scenarios one would derive their Specs from GherkinSpecBase.
+XUnitTests / NUnitTests / MsTests files are a exemplary "Spec Files" in itself.
 
 Here is basic use case for developers writing and/or implementing unit tests:
 
@@ -21,16 +19,17 @@ b) Write your test class down by hand, deriving it from GherkinSpecBase and mark
 
 Main point: Steps are there to match your .feature file and mark your progress through out testing Scenario.
 
-# MsTest "Example" - no asserts
+# MsTest Example
 https://github.com/arekbal/GherkinSpec/blob/master/src/GherkinSpec.Tests/MsTests.cs
-
-# XUnit "Example" - no asserts
+# XUnit Example
 https://github.com/arekbal/GherkinSpec/blob/master/src/GherkinSpec.Tests/XUnitTests.cs
+# NUnit Example
+https://github.com/arekbal/GherkinSpec/blob/master/src/GherkinSpec.Tests/NUnitTests.cs
 
 # GherkinSpec Generator
 http://arekbal.github.io/gherkin_spec
 
-Source is here(different repo): https://github.com/arekbal/arekbal.github.io/tree/master/gherkin_spec
+Source for generator is here(different repo): https://github.com/arekbal/arekbal.github.io/tree/master/gherkin_spec
 
 
 
