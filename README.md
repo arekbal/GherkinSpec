@@ -1,3 +1,5 @@
+
+![alt text](https://ci.appveyor.com/api/projects/status/github/arekbal/gherkinspec)
 # GherkinSpec
 Gherkin .feature files specification processor for .net
 
